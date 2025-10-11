@@ -11,15 +11,15 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ### Materi:
 
-- Variabel, tipe data, operator, control flow (`if`, `switch`, `for`, `while`)
-- Function dan Arrow Function
+- Variabel, tipe data, operator, control flow (`if`, `switch`, `for`, `while`) ✅
+- Function dan Arrow Function ✅
 - Array & Object:
-  - Manipulasi: `map`, `filter`, `reduce`
-  - Destructuring & Spread Operator
+  - Manipulasi: `map`, `filter`, `reduce` ✅
+  - Destructuring & Spread Operator ✅
 - Callback dan Higher Order Function
-- ES6+ Features: Template literal, class, rest & spread, module export/import
-- Asynchronous JavaScript: Callback, Promise, Async/Await
-- Error Handling dengan `try...catch`
+- ES6+ Features: Template literal, class, rest & spread, module export/import ✅
+- Asynchronous JavaScript: Callback, Promise, Async/Await ✅
+- Error Handling dengan `try...catch` ✅
 
 ---
 
