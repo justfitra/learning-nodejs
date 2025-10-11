@@ -30,11 +30,11 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 ### Materi:
 
 - Apa itu Node.js:
-  - V8 Engine, Event Loop, Non-blocking I/O
-  - Perbedaan Node.js vs Browser JS
+  - V8 Engine, Event Loop, Non-blocking I/O ✅
+  - Perbedaan Node.js vs Browser JS ✅
 - Module System:
-  - CommonJS (`require`, `module.exports`)
-  - ES Modules (`import/export`)
+  - CommonJS (`require`, `module.exports`) ✅
+  - ES Modules (`import/export`) ✅
 - Built-in Modules: `fs`, `path`, `os`, `http`
 - Asynchronous Pattern di Node.js
 - File System: baca, tulis, rename, hapus file
