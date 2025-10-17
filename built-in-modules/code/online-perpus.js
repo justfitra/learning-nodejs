@@ -24,44 +24,75 @@ const server = http.createServer((req, res) => {
   if (url.pathname === "/books") {
     try {
       const title = url.searchParams.get("title");
-
-      fs.readFile(filePath, "utf8", (err, data) => {
-        let books = [];
-        if (!err && data) {
-          try {
-            books = JSON.parse(data);
-            return res.end(data);
-          } catch {
-            books = [];
+      const idParams = url.searchParams.get("id");
+      if (!title && idParams) {
+        fs.readFile(filePath, "utf8", (err, data) => {
+          if (err) {
+            res.writeHead(500, { "Content-Type": "text/plain" });
+            return res.end("Gagal membacaa data.");
           }
-        }
-        const newBook = {
-          id: ++id,
-          title,
-        };
 
-        books.push(newBook);
-        if (url.search) {
-          try {
-            fs.writeFile(filePath, JSON.stringify(books, null, 2), (err) => {
-              if (err) {
-                res.writeHead(400, { "content-type": "text/plain" });
-                res.end("Error data not found");
-                books.push(content);
+          const dtBook = JSON.parse(data);
+          const bookFill = dtBook.filter((res) => res.id === Number(idParams));
+          res.writeHead(200, { "Content-Type": "text/plain" });
+          return res.end(JSON.stringify(bookFill));
+        });
+      } else if (title && !idParams) {
+        fs.readFile(filePath, "utf8", (err, data) => {
+          let books = [];
+          if (!err && data) {
+            try {
+              if (!idParams) {
+                books = JSON.parse(data);
               }
-            });
-          } catch (err) {
-            console.log(err);
+            } catch {
+              books = [];
+            }
           }
-        }
-      });
+
+          const newBook = {
+            id: ++id,
+            title,
+          };
+
+          books.push(newBook);
+
+          fs.writeFile(
+            filePath,
+            JSON.stringify(books, null, 2),
+            "utf8",
+            (err) => {
+              if (err) {
+                res.writeHead(500, { "Content-Type": "text/plain" });
+                return res.end("Gagal menulis data.");
+              }
+
+              res.writeHead(200, { "Content-Type": "application/json" });
+              res.end(JSON.stringify(newBook, null, 2));
+            }
+          );
+        });
+      }
     } catch {
       res.writeHead(400, { "content-type": "text/plain" });
       res.end("File Tidak Valid");
     }
   } else {
-    res.writeHead(200, { "content-type": "text/plain" });
-    res.end("Hello Testing");
+    fs.readFile(filePath, "utf8", (err, data) => {
+      if (err) {
+        res.writeHead(500, { "content-type": "text/plain" });
+        res.end("Data Not Found");
+      }
+
+      if (!data) {
+        res.writeHead(200, { "content-type": "text/plain" });
+        res.end("Belum Ada Buku");
+      }
+      if (data) {
+        res.writeHead(200, { "content-type": "text/plain" });
+        res.end(data);
+      }
+    });
   }
 });
 server.listen(3000, () => {
