@@ -20,7 +20,7 @@ Tujuan: latihan operasi file (readFile, appendFile, unlink) dan respon dinamis.
 import http from "http";
 import fs from "fs";
 
-const filePath = "built-in-modules/code/notes.json";
+const filePath = "built-in-modules/code/notes.txt";
 
 const server = http.createServer((req, res) => {
   const urlPath = new URL(req.url, `http://${req.headers.host}`);
@@ -33,23 +33,61 @@ const server = http.createServer((req, res) => {
           res.writeHead(500, { "content-type": "text/plain" });
           return res.end("File Rusak");
         }
-        if (err.code === "ENOENT") {
+        if (err === "ENOENT") {
           res.writeHead(404, { "content-type": "text/plain" });
           return res.end("File tidak ditemukan");
         }
         res.writeHead(200, { "content-type": "text/plain" });
-        res.end(data);
+        return res.end(data);
       });
     } catch (err) {
-      console.log(err);
+      res.writeHead(500, { "content-type": "text/plain" });
+      return res.end(err);
     }
   } else if (urlPath.pathname === "/notes" && method === "POST") {
     try {
       const text = urlPath.searchParams.get("text");
-      res.writeHead(200, { "content-type": "text/plain" });
-      res.end(text);
+      let body = [];
+      fs.readFile(filePath, "utf8", (err, data) => {
+        if (!err && data) {
+          try {
+            body = JSON.parse(data);
+          } catch {
+            body = [];
+          }
+        }
+        const newBody = text;
+
+        body.push(newBody);
+
+        fs.writeFile(filePath, JSON.stringify(body), (err) => {
+          if (err) {
+            res.writeHead(500, { "content-type": "text/plain" });
+            return res.end("Gagal membuat file");
+          }
+
+          res.writeHead(200, { "content-type": "text/plain" });
+          return res.end(JSON.stringify(body));
+        });
+      });
     } catch (err) {
-      console.log(err);
+      res.writeHead(500, { "content-type": "text/plain" });
+      return res.end(err);
+    }
+  } else if (urlPath.pathname === "/notes" && method === "DELETE") {
+    try {
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          res.writeHead(500, { "content-type": "text/plain" });
+          return res.end("Gagal menghapus file");
+        }
+
+        res.writeHead(200, { "content-type": "text/plain" });
+        res.end("Berhasil menghapus file");
+      });
+    } catch (err) {
+      res.writeHead(500, { "content-type": "text/plain" });
+      return res.end(err);
     }
   } else if (url === "/" && urlPath.pathname === "/" && method === "GET") {
     res.writeHead(200, { "content-type": "text/plain" });
