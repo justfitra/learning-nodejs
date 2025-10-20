@@ -33,6 +33,11 @@ const server = http.createServer((req, res) => {
       password: 123,
     };
 
+    if (username !== user.username || Number(password) !== user.password) {
+      res.writeHead(401, { "content-type": "text/plain" });
+      res.end("Unauthorized");
+    }
+
     if (username === user.username && Number(password) === user.password) {
       res.writeHead(200, { "content-type": "text/plain" });
       res.end("Login Successfully");
