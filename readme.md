@@ -35,7 +35,7 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 - Module System:
   - CommonJS (`require`, `module.exports`) ✅
   - ES Modules (`import/export`) ✅
-- Built-in Modules: `fs`, `path`, `os`, `http`
+- Built-in Modules: `fs`, `path`, `os`, `http` ✅
 - Asynchronous Pattern di Node.js
 - File System: baca, tulis, rename, hapus file
 - HTTP Server Dasar dengan `http.createServer()`
