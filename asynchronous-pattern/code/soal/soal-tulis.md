@@ -1,4 +1,4 @@
-## 🧩 **Level Dasar (Pemahaman Konsep)**
+## **Level Dasar (Pemahaman Konsep)**
 
 1. Jelaskan perbedaan utama antara **synchronous** dan **asynchronous** di Node.js.
    - **Synchronous** => kode dieksekusi berurutan satu per satu, baris berikutnya nunggu baris sebelumnya selesai.
@@ -17,7 +17,7 @@
 
 ---
 
-## ⚙️ **Level Menengah (Analisis & Debugging)**
+## **Level Menengah (Analisis & Debugging)**
 
 6. Perhatikan potongan kode berikut:
 
@@ -58,7 +58,7 @@
 
 ---
 
-## 🚀 **Level Lanjutan (Studi Kasus Mini)**
+## **Level Lanjutan (Studi Kasus Mini)**
 
 8. Kamu membuat server Node.js sederhana.
    Setiap kali user mengakses `/save?text=halo`, server harus:

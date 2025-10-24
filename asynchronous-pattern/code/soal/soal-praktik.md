@@ -1,4 +1,4 @@
-## ⚙️ **🧠 UJIAN PRAKTIK ASYNCHRONOUS NODE.JS — LEVEL MENENGAH KE ATAS**
+## ** UJIAN PRAKTIK ASYNCHRONOUS NODE.JS — LEVEL MENENGAH KE ATAS**
 
 ---
 
@@ -25,7 +25,7 @@ node logger.js "Belajar Node itu seru"
 **Output:**
 
 ```
-✅ Log berhasil ditulis!
+ Log berhasil ditulis!
 Isi file log:
 Belajar Node itu seru
 ```
