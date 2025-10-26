@@ -95,13 +95,3 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => console.log(`Server berjalan di port ${PORT}`));
 ```
-
----
-
-## 5. Kesimpulan
-
-| Tujuan            | Penjelasan                                                  |
-| ----------------- | ----------------------------------------------------------- |
-| **Keamanan**      | Menyembunyikan data penting agar tidak terbaca publik       |
-| **Fleksibilitas** | Konfigurasi bisa diubah tanpa ubah kode                     |
-| **Portabilitas**  | Memudahkan deploy di berbagai environment (dev, test, prod) |
