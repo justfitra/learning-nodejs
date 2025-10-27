@@ -54,3 +54,83 @@ app.get("/gender/:male.:female", (req, res) => {
 });
 
 // Route Handlers
+
+// Satu / Singgle callback
+
+app.get("/single/a", (req, res) => {
+  res.send("Hello");
+});
+
+// Lebih dari satu callback bisa menggunakan next()
+
+app.get(
+  "/much/b",
+  (req, res, next) => {
+    console.log("ini akan di eksekusi bersamaan dengan callback");
+    // jika menaruh respon send disini kemungkinan akan muncul ini karena di eksekusi secara bersamaan dengan respon setelah next() dan akan terjadi error
+    next();
+  },
+  (req, res) => {
+    res.send("Hallo ini adalah B");
+  }
+);
+
+// Callback bisa mnggunakan array sebuah function, untuk handle route
+
+const cb0 = (req, res, next) => {
+  console.log("cb-0");
+  next();
+};
+const cb1 = (req, res, next) => {
+  console.log("cb-1");
+  next();
+};
+const cb2 = (req, res, next) => {
+  res.send("cb-2");
+  next();
+};
+
+app.get("/example/c", [cb0, cb1, cb2]);
+
+// Atau
+
+const cb3 = (req, res, next) => {
+  console.log("cb-3");
+  next();
+};
+
+const cb4 = (req, res, next) => {
+  console.log("cb-4");
+  next();
+};
+
+app.get(
+  "/example/d",
+  [cb3, cb4],
+  (req, res, next) => {
+    console.log(`ini akan di eksekusi bersamaan dengan callback dan array`);
+    next();
+  },
+  (req, res) => {
+    res.send("Hallo dari d");
+  }
+);
+
+// untuk route juga bisa menngunakan app.route() yang menurut saya juga lebih simpel tapi sesuaikan kebutuhan juga
+
+app
+  .route("/book")
+  .get((req, res) => {
+    res.send("Hello");
+  })
+  .post((req, res) => {
+    res.send("this is post method");
+  })
+  .put((req, res) => {
+    res.json({
+      name: "fitra",
+    });
+  })
+  .delete((req, res) => {
+    res.send("this is delete");
+  });
