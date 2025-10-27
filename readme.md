@@ -39,7 +39,7 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 - Asynchronous Pattern di Node.js ✅
 - File System: baca, tulis, rename, hapus file ✅
 - HTTP Server Dasar dengan `http.createServer()` ✅
-- Environment Variable (`process.env`, `.env`, dotenv)
+- Environment Variable (`process.env`, `.env`, dotenv) ✅
 
 ---
 
