@@ -58,6 +58,20 @@ app.delete("/users/:id", (req, res) => {
 });
 ```
 
+### Response method
+
+| Method             | Deskripsi                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------- |
+| `res.download()`   | Meminta browser untuk mengunduh sebuah file.                                          |
+| `res.end()`        | Mengakhiri proses respons.                                                            |
+| `res.json()`       | Mengirim respons dalam format JSON.                                                   |
+| `res.jsonp()`      | Mengirim respons JSON dengan dukungan JSONP.                                          |
+| `res.redirect()`   | Mengarahkan (redirect) permintaan ke URL lain.                                        |
+| `res.render()`     | Merender tampilan (view template).                                                    |
+| `res.send()`       | Mengirim respons dengan berbagai tipe data.                                           |
+| `res.sendFile()`   | Mengirim file sebagai _octet stream_ (biasanya untuk unduhan).                        |
+| `res.sendStatus()` | Menetapkan kode status respons dan mengirim representasi teksnya sebagai isi respons. |
+
 ---
 
 ## 3. Middleware
