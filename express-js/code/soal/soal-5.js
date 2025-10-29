@@ -18,6 +18,7 @@ app.get("/", (req, res, next) => {
 
 Pertanyaan:
 Urutan log yang muncul di terminal saat kamu buka http://localhost:3000/ adalah apa? 
+dari middleware dulu kemudain respons reoute dan yang atas kemudian bawah
 */
 import express from "express";
 
