@@ -1,4 +1,5 @@
 import express from "express";
+import bird from "./bird.js";
 
 const app = express();
 const port = 3000;
@@ -32,7 +33,7 @@ app.listen(port, () => {
 // Route akan error ketika menggunakan (?,+,(shomenting),)
 // ketika menggunakan (/.*fly$/) route tidak error, tetapi akan sulit jika di gunakan untuk real project
 
-app.get("/.*fly$/", (req, res) => {
+app.get(/.*fly$/, (req, res) => {
   res.send(`Hello this is profile page with method ${req.method}`);
 });
 
@@ -87,7 +88,6 @@ const cb1 = (req, res, next) => {
 };
 const cb2 = (req, res, next) => {
   res.send("cb-2");
-  next();
 };
 
 app.get("/example/c", [cb0, cb1, cb2]);
@@ -134,3 +134,5 @@ app
   .delete((req, res) => {
     res.send("this is delete");
   });
+
+app.use("/birds", bird);
