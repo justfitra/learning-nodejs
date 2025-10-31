@@ -62,16 +62,17 @@ import express from "express";
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const validation = (req, res, next) => {
   const name = req.body.name;
   const age = req.body.age;
 
-  if (name === "") {
+  if (!name || name.trim() === "") {
     throw new Error("Nama wajib diisi");
   }
 
-  if (typeof age !== "number") {
+  if (isNaN(Number(age))) {
     throw new Error("Umur harus berupa angka");
   }
   next();
