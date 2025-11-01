@@ -32,16 +32,16 @@ Ketentuan:
 */
 
 import express from "express";
-import userRouter from "./routes/userRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/users", userRouter);
+app.use("/users", userRoutes);
 
-app.use("/product", productRoutes);
+app.use("/products", productRoutes);
 
 app.listen(3000, () => {
   console.log("server runnig at http://localhost:3000");
