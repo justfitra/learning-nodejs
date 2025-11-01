@@ -34,6 +34,11 @@ app.use("/json", express.json());
 app.use("/form", express.urlencoded({ extended: true }));
 
 app.post("/json", (req, res) => {
+  if (!req.body.title && !req.body.content) {
+    req
+      .status(400)
+      .json({ message: "Error title and content must be required" });
+  }
   res.status(201).json(req.body);
 });
 
