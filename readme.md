@@ -49,12 +49,12 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ### Materi:
 
-- Instalasi & Setup Express.js
-- Routing (GET, POST, PUT, DELETE)
+- Instalasi & Setup Express.js ✅
+- Routing (GET, POST, PUT, DELETE) ✅
 - Middleware:
-  - Global, route-specific, custom middleware
-- Body Parser (JSON, URL-encoded)
-- Error Handling Middleware
+  - Global, route-specific, custom middleware ✅
+- Body Parser (JSON, URL-encoded) ✅
+- Error Handling Middleware ✅
 - Struktur Project Modular:
   - Routes, Controllers, Services, Utils
 - Logging dengan `morgan`
