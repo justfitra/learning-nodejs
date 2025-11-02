@@ -11,15 +11,15 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ### Materi:
 
-- Variabel, tipe data, operator, control flow (`if`, `switch`, `for`, `while`) ✅
-- Function dan Arrow Function ✅
+- Variabel, tipe data, operator, control flow (`if`, `switch`, `for`, `while`) **done ✓**
+- Function dan Arrow Function **done ✓**
 - Array & Object:
-  - Manipulasi: `map`, `filter`, `reduce` ✅
-  - Destructuring & Spread Operator ✅
+  - Manipulasi: `map`, `filter`, `reduce` **done ✓**
+  - Destructuring & Spread Operator **done ✓**
 - Callback dan Higher Order Function
-- ES6+ Features: Template literal, class, rest & spread, module export/import ✅
-- Asynchronous JavaScript: Callback, Promise, Async/Await ✅
-- Error Handling dengan `try...catch` ✅
+- ES6+ Features: Template literal, class, rest & spread, module export/import **done ✓**
+- Asynchronous JavaScript: Callback, Promise, Async/Await **done ✓**
+- Error Handling dengan `try...catch` **done ✓**
 
 ---
 
@@ -30,16 +30,16 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 ### Materi:
 
 - Apa itu Node.js:
-  - V8 Engine, Event Loop, Non-blocking I/O ✅
-  - Perbedaan Node.js vs Browser JS ✅
+  - V8 Engine, Event Loop, Non-blocking I/O **done ✓**
+  - Perbedaan Node.js vs Browser JS **done ✓**
 - Module System:
-  - CommonJS (`require`, `module.exports`) ✅
-  - ES Modules (`import/export`) ✅
-- Built-in Modules: `fs`, `path`, `os`, `http` ✅
-- Asynchronous Pattern di Node.js ✅
-- File System: baca, tulis, rename, hapus file ✅
-- HTTP Server Dasar dengan `http.createServer()` ✅
-- Environment Variable (`process.env`, `.env`, dotenv) ✅
+  - CommonJS (`require`, `module.exports`) **done ✓**
+  - ES Modules (`import/export`) **done ✓**
+- Built-in Modules: `fs`, `path`, `os`, `http` **done ✓**
+- Asynchronous Pattern di Node.js **done ✓**
+- File System: baca, tulis, rename, hapus file **done ✓**
+- HTTP Server Dasar dengan `http.createServer()` **done ✓**
+- Environment Variable (`process.env`, `.env`, dotenv) **done ✓**
 
 ---
 
@@ -49,12 +49,12 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ### Materi:
 
-- Instalasi & Setup Express.js ✅
-- Routing (GET, POST, PUT, DELETE) ✅
+- Instalasi & Setup Express.js **done ✓**
+- Routing (GET, POST, PUT, DELETE) **done ✓**
 - Middleware:
-  - Global, route-specific, custom middleware ✅
-- Body Parser (JSON, URL-encoded) ✅
-- Error Handling Middleware ✅
+  - Global, route-specific, custom middleware **done ✓**
+- Body Parser (JSON, URL-encoded) **done ✓**
+- Error Handling Middleware **done ✓**
 - Struktur Project Modular:
   - Routes, Controllers, Services, Utils
 - Logging dengan `morgan`
@@ -170,15 +170,3 @@ Setelah menyelesaikan roadmap ini, kamu akan mampu:
 ---
 
 ## Tips Belajar
-
-1. Gunakan project kecil setiap naik level.
-2. Catat error & solusi di repo pribadi (learning log).
-3. Baca dokumentasi resmi setiap kali stuck.
-4. Setelah Level 6, mulai latihan membuat API real seperti:
-   - Sistem login user
-   - CRUD produk
-   - Upload file dan search
-   - Dashboard admin
-
----
-
