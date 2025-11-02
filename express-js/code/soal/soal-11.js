@@ -1,29 +1,23 @@
 /*
- Tantangan Singkat: “Form vs JSON Hell”
-
 Instruksi:
 
 1. Buat satu server Express baru.
-2. Aktifkan `express.json()` dan `express.urlencoded({ extended: true })`.
+2. Aktifkan express.json() dan express.urlencoded({ extended: true }).
 3. Buat dua route:
-   * `POST /json` → kirim data JSON `{ "title": "Belajar", "level": 3 }`
-   * `POST /form` → kirim data form `title=Belajar&level=3`
-4. Kedua route harus **menampilkan hasil parsing body-nya di console** dan **balas response JSON** seperti:
+   POST /json → kirim data JSON { "title": "Belajar", "level": 3 }
+   POST /form → kirim data form title=Belajar&level=3
+4. Kedua route harusmenampilkan hasil parsing body-nya di consol danbalas response JSO seperti:
 
-   ```json
+   json
    {
      "received": { "title": "Belajar", "level": 3 }
    }
-   ```
+   
 5. Kalau salah satu body kosong, kirim:
 
-   ```json
+   json
    { "error": "Data tidak boleh kosong" }
-   ```
-
----
-
-
+   
 */
 
 import express from "express";

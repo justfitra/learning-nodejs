@@ -1,43 +1,40 @@
 /*
 
-### 💥 Soal:
-
 Buat server Express dengan ketentuan berikut:
 
-1. Gunakan **body parser** bawaan Express (`express.json()` dan `express.urlencoded({ extended: true })`) agar server bisa menerima **JSON** dan **form data (URL-encoded)**.
-2. Buat route `POST /user` untuk menerima data user:
+1. Gunakan body parser bawaan Express (express.json() dan express.urlencoded({ extended: true })) agar server bisa menerima JSON dan form data (URL-encoded).
+2. Buat route POST /user untuk menerima data user:
 
-   ```json
+   json
    {
      "name": "Fitra",
      "age": 19
    }
-   ```
+   
 3. Jika:
 
-   * `name` kosong → lempar error dengan pesan `"Nama wajib diisi"`
-   * `age` bukan angka → lempar error dengan pesan `"Umur harus berupa angka"`
+    name kosong → lempar error dengan pesan "Nama wajib diisi"
+    age bukan angka → lempar error dengan pesan "Umur harus berupa angka"
 4. Jika data valid → kirim response:
 
-   ```json
+   json
    {
      "message": "Data diterima",
      "data": { "name": "Fitra", "age": 19 }
    }
-   ```
-5. Tambahkan **error handling middleware global** agar semua error dijawab dengan format JSON:
+   
+5. Tambahkan error handling middleware global agar semua error dijawab dengan format JSON:
 
-   ```json
+   json
    { "message": "Terjadi kesalahan server", "detail": "pesan error asli" }
-   ```
+   
 
----
 
-### 🧠 Contoh Output:
+ Contoh Output:
 
-#### Request:
+ Request:
 
-```
+
 POST /user
 Content-Type: application/json
 
@@ -45,16 +42,16 @@ Content-Type: application/json
   "name": "",
   "age": "abc"
 }
-```
 
-#### Response:
 
-```json
+ Response:
+
+
 {
   "message": "Terjadi kesalahan server",
   "detail": "Nama wajib diisi"
 }
-```
+
 */
 
 import express from "express";

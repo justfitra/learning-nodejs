@@ -4,30 +4,30 @@ Ketentuan:
 
 1. Buat struktur project seperti ini:
 
-   ```
+   
    project/
-   ├─ app.js
-   ├─ routes/
-   │   ├─ userRoutes.js
-   │   └─ productRoutes.js
-   ```
+   app.js
+   routes/
+   userRoutes.js
+   productRoutes.js
+   
 
-2. Di **`userRoutes.js`**, buat 2 endpoint:
+2. Di userRoutes.js, buat 2 endpoint:
 
-   * `GET /users` → kirim JSON `{ message: "Daftar semua user" }`
-   * `POST /users` → kirim JSON `{ message: "User baru ditambahkan" }`
+    GET /users → kirim JSON { message: "Daftar semua user" }
+    POST /users → kirim JSON { message: "User baru ditambahkan" }
 
-3. Di **`productRoutes.js`**, buat 2 endpoint:
+3. Di productRoutes.js, buat 2 endpoint:
 
-   * `GET /products` → kirim JSON `{ message: "Daftar produk tersedia" }`
-   * `POST /products` → kirim JSON `{ message: "Produk baru ditambahkan" }`
+    GET /products → kirim JSON { message: "Daftar produk tersedia" }
+    POST /products → kirim JSON { message: "Produk baru ditambahkan" }
 
-4. Di **`app.js`**:
+4. Di app.js:
 
-   * Import kedua router.
-   * Gunakan `app.use("/users", userRoutes)` dan `app.use("/products", productRoutes)`.
-   * Tambahkan `express.json()` agar bisa parsing body JSON.
-   * Jalankan server di port 3000.
+    Import kedua router.
+    Gunakan app.use("/users", userRoutes) dan app.use("/products", productRoutes).
+    Tambahkan express.json() agar bisa parsing body JSON.
+    Jalankan server di port 3000.
 
 */
 
