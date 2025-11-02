@@ -1,13 +1,13 @@
-# 🚀 Roadmap Belajar Node.js — From Zero to Backend Engineer
+# Roadmap Belajar Node.js — From Zero to Backend Engineer
 
 Selamat datang di roadmap lengkap pembelajaran **Node.js**, dirancang untuk kamu yang ingin menjadi **Backend Engineer profesional**.  
 Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **Level 8 (Production & Scalable System)**.
 
 ---
 
-## 📘 LEVEL 1 — FUNDAMENTAL JAVASCRIPT UNTUK NODE.JS
+## LEVEL 1 — FUNDAMENTAL JAVASCRIPT UNTUK NODE.JS
 
-> 🎯 Tujuan: Memperkuat dasar JavaScript agar siap masuk ke dunia Node.js.
+> Tujuan: Memperkuat dasar JavaScript agar siap masuk ke dunia Node.js.
 
 ### Materi:
 
@@ -23,9 +23,9 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ---
 
-## ⚙️ LEVEL 2 — FUNDAMENTAL NODE.JS
+## LEVEL 2 — FUNDAMENTAL NODE.JS
 
-> 🎯 Tujuan: Memahami cara kerja Node.js dan mengenal modul internal.
+> Tujuan: Memahami cara kerja Node.js dan mengenal modul internal.
 
 ### Materi:
 
@@ -43,9 +43,9 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ---
 
-## 🧱 LEVEL 3 — EXPRESS FRAMEWORK
+## LEVEL 3 — EXPRESS FRAMEWORK
 
-> 🎯 Tujuan: Membuat REST API modular dan mudah dikelola.
+> Tujuan: Membuat REST API modular dan mudah dikelola.
 
 ### Materi:
 
@@ -61,9 +61,9 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ---
 
-## 🧩 LEVEL 4 — DATABASE INTEGRATION
+## LEVEL 4 — DATABASE INTEGRATION
 
-> 🎯 Tujuan: Menghubungkan API dengan database dan mengelola data.
+> Tujuan: Menghubungkan API dengan database dan mengelola data.
 
 ### Materi:
 
@@ -77,9 +77,9 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ---
 
-## 🔐 LEVEL 5 — AUTHENTICATION & SECURITY
+## LEVEL 5 — AUTHENTICATION & SECURITY
 
-> 🎯 Tujuan: Membuat sistem login yang aman dan API yang terlindungi.
+> Tujuan: Membuat sistem login yang aman dan API yang terlindungi.
 
 ### Materi:
 
@@ -94,9 +94,9 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ---
 
-## 🧮 LEVEL 6 — ADVANCED CONCEPTS
+## LEVEL 6 — ADVANCED CONCEPTS
 
-> 🎯 Tujuan: Menguasai arsitektur aplikasi, optimasi, dan testing.
+> Tujuan: Menguasai arsitektur aplikasi, optimasi, dan testing.
 
 ### Materi:
 
@@ -110,9 +110,9 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ---
 
-## ☁️ LEVEL 7 — DEPLOYMENT & MONITORING
+## LEVEL 7 — DEPLOYMENT & MONITORING
 
-> 🎯 Tujuan: Membawa aplikasi ke internet dan memantau performanya.
+> Tujuan: Membawa aplikasi ke internet dan memantau performanya.
 
 ### Materi:
 
@@ -127,9 +127,9 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ---
 
-## 🧠 LEVEL 8 — MASTERING BACKEND
+## LEVEL 8 — MASTERING BACKEND
 
-> 🎯 Tujuan: Menjadi backend engineer yang siap produksi dan memahami sistem besar.
+> Tujuan: Menjadi backend engineer yang siap produksi dan memahami sistem besar.
 
 ### Materi:
 
@@ -147,7 +147,7 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 
 ---
 
-## 🏁 Hasil Akhir
+## Hasil Akhir
 
 Setelah menyelesaikan roadmap ini, kamu akan mampu:
 
@@ -158,7 +158,7 @@ Setelah menyelesaikan roadmap ini, kamu akan mampu:
 
 ---
 
-## 🧭 Referensi & Sumber Belajar
+## Referensi & Sumber Belajar
 
 - [Node.js Docs](https://nodejs.org/en/docs)
 - [Express.js Guide](https://expressjs.com/)
@@ -169,7 +169,7 @@ Setelah menyelesaikan roadmap ini, kamu akan mampu:
 
 ---
 
-## 💡 Tips Belajar
+## Tips Belajar
 
 1. Gunakan project kecil setiap naik level.
 2. Catat error & solusi di repo pribadi (learning log).
@@ -182,6 +182,3 @@ Setelah menyelesaikan roadmap ini, kamu akan mampu:
 
 ---
 
-### 📍 Penulis: [Fitra Maulana](https://github.com/fitramaulana)
-
-> “Kamu tidak perlu jenius untuk menguasai backend, cukup konsisten dan ngerti konsep.” 💻
