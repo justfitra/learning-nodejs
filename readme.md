@@ -168,5 +168,3 @@ Setelah menyelesaikan roadmap ini, kamu akan mampu:
 - [Redis.io](https://redis.io/)
 
 ---
-
-## Tips Belajar
