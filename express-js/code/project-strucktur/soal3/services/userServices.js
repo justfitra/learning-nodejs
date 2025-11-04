@@ -20,3 +20,13 @@ export const addUser = (name, age) => {
 
   return user;
 };
+
+export const detailUser = (name) => {
+  if (!name) {
+    throw new Error("name must be required for find name");
+  }
+
+  const user = users.find((res) => res.name === name);
+
+  return user;
+};

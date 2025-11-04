@@ -1,4 +1,4 @@
-import { addUser, fetchUser } from "../services/userServices.js";
+import { addUser, detailUser, fetchUser } from "../services/userServices.js";
 import { formatRespose } from "../utils/formatRespose.js";
 
 export const getAllUsers = (req, res, next) => {
@@ -16,6 +16,18 @@ export const createUser = (req, res, next) => {
     const user = addUser(req.body.name, req.body.age);
 
     res.status(201).json(formatRespose(201, "User Successfully Created", user));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const showUser = (req, res, next) => {
+  try {
+    const user = detailUser(req.body.name);
+    if (!user) {
+      throw new Error("User not defined");
+    }
+    res.status(200).json(formatRespose(200, "User Successfully Created", user));
   } catch (err) {
     next(err);
   }

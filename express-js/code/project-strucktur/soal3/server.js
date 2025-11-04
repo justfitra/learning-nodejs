@@ -1,66 +1,77 @@
 /*
-Struktur Project
 
-project/
-├─ app.js
-├─ routes/
-│  └─ userRoutes.js
-├─ controllers/
-│  └─ userController.js
-├─ services/
-│  └─ userService.js
-└─ utils/
-   └─ errorHandler.js
+Ketentuan:
 
-Ketentuan
+1. Buat struktur project berikut:
 
-1. userRoutes.js
+   
+   project/
+   ├─ app.js
+   ├─ routes/
+   │   ├─ authRoutes.js
+   ├─ controllers/
+   │   ├─ authController.js
+   ├─ services/
+   │   ├─ authService.js
+   ├─ middleware/
+   │   ├─ logger.js
+   │   ├─ errorHandler.js
+   ├─ utils/
+   │   ├─ responseFormatter.js
+   
 
-    GET /users → panggil getAllUsers dari controller
-    POST /users → panggil createUser dari controller
+2. authRoutes.js
 
-2. userController.js
+    POST /login → panggil controller loginUser.
 
-    getAllUsers(req, res, next)
-     → kirim JSON { message: "Daftar semua user" }
-    createUser(req, res, next)
-     → ambil name dari req.body
+3. authController.js
 
-      kalau kosong → next(new Error("Nama wajib diisi"))
-      kalau ada → res.json({ message: "User berhasil dibuat", data: { name } })
+    Panggil fungsi dari authService.js.
+    Kirim hasilnya dalam format JSON melalui responseFormatter.js.
 
-3. userService.js
+4. authService.js
 
-    (Untuk latihan, cukup buat fungsi validateUser(name) yang melempar error kalau nama kosong.)
+    Validasi: kalau req.body.username atau req.body.password kosong, lempar error (throw new Error("Username dan password wajib diisi")).
+    Kalau valid, kembalikan data { username: req.body.username, token: "123abc" }.
 
-4. errorHandler.js
+5. logger.js
 
-    Tangani semua error dan kembalikan JSON:
+    Middleware sederhana yang log method dan URL setiap request.
 
-     json
-     {
-       "message": "Terjadi kesalahan server",
-       "detail": "pesan error asli"
-     }
-    
-5. app.js
+6. errorHandler.js
 
-    Import router & middleware.
-    Gunakan express.json().
-    Pasang app.use(errorHandler) di paling bawah.
-    Jalankan server di port 3000.
+    Tangani semua error dengan format JSON { success: false, message: err.message }.
+
+7. responseFormatter.js
+
+    Export fungsi successResponse(data) → return { success: true, data }.
+
+8. Jalankan server di port 4000.
+
+
+
+Output yang diharapkan:
+
+ Jika body kosong → {"success": false, "message": "Username dan password wajib diisi"}
+ Jika benar → {"success": true, "data": { "username": "fitra", "token": "123abc" }}
+
+
 */
 
 import express from "express";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import authRouter from "./routes/authRoutes.js";
+import { logger } from "./middleware/logger.js";
 
 const app = express();
 dotenv.config();
 
 app.use(express.json());
+app.use(logger);
 app.use("/users", userRouter);
+app.use("/login", authRouter);
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
