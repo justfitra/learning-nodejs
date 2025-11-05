@@ -1,5 +1,4 @@
-/*
-
+/* 
 Ketentuan:
 
 1. Buat struktur project berikut:
@@ -48,8 +47,6 @@ Ketentuan:
 
 8. Jalankan server di port 4000.
 
-
-
 Output yang diharapkan:
 
  Jika body kosong → {"success": false, "message": "Username dan password wajib diisi"}
@@ -68,6 +65,7 @@ import { logger } from "./middleware/logger.js";
 const app = express();
 dotenv.config();
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(logger);
 app.use("/users", userRouter);
