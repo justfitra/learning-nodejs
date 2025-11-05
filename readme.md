@@ -56,8 +56,8 @@ Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **
 - Body Parser (JSON, URL-encoded) **done ✓**
 - Error Handling Middleware **done ✓**
 - Struktur Project Modular:
-  - Routes, Controllers, Services, Utils
-- Logging dengan `morgan`
+  - Routes, Controllers, Services, Utils **done ✓**
+- Logging dengan `morgan` **done ✓**
 
 ---
 
