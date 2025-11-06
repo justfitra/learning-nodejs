@@ -1,170 +1,184 @@
-# Roadmap Belajar Node.js — From Zero to Backend Engineer
+# Roadmap Node.js — *From Logic to Production Engineering*
 
-Selamat datang di roadmap lengkap pembelajaran **Node.js**, dirancang untuk kamu yang ingin menjadi **Backend Engineer profesional**.  
-Roadmap ini disusun bertahap dari **Level 1 (Fundamental JavaScript)** hingga **Level 8 (Production & Scalable System)**.
+## LEVEL 1 — JAVASCRIPT FOR NODE RUNTIME (Fundamental Logika Asinkron)
 
----
-
-## LEVEL 1 — FUNDAMENTAL JAVASCRIPT UNTUK NODE.JS
-
-> Tujuan: Memperkuat dasar JavaScript agar siap masuk ke dunia Node.js.
+> Tujuan: Memahami bahasa JavaScript dari sisi **runtime Node.js**, bukan browser.
 
 ### Materi:
 
-- Variabel, tipe data, operator, control flow (`if`, `switch`, `for`, `while`) **done ✓**
-- Function dan Arrow Function **done ✓**
-- Array & Object:
-  - Manipulasi: `map`, `filter`, `reduce` **done ✓**
-  - Destructuring & Spread Operator **done ✓**
-- Callback dan Higher Order Function
-- ES6+ Features: Template literal, class, rest & spread, module export/import **done ✓**
-- Asynchronous JavaScript: Callback, Promise, Async/Await **done ✓**
-- Error Handling dengan `try...catch` **done ✓**
+* Konsep *single-threaded + event-driven* (Non-blocking I/O) *done ✓*
+* V8 Engine dan memory heap *done ✓*
+* Event Loop, Task Queue, dan Microtask Queue *done ✓*
+* Asynchronous JS: Callback → Promise → Async/Await *done ✓*
+* Error Handling: `try...catch`, `throw`, `process.on('uncaughtException')` *done ✓*
+* Modularization: CommonJS (`require`) vs ES Modules (`import/export`) *done ✓*
+
+**Sumber:**
+
+* [Node.js Event Loop Docs](https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/)
+* [Jake Archibald - Tasks, microtasks, queues and schedules](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
 
 ---
 
-## LEVEL 2 — FUNDAMENTAL NODE.JS
+## LEVEL 2 — CORE NODE.JS MODULES & SYSTEM UNDERSTANDING
 
-> Tujuan: Memahami cara kerja Node.js dan mengenal modul internal.
+> Tujuan: Memahami bagaimana Node.js menjalankan server dan berinteraksi dengan OS.
 
 ### Materi:
 
-- Apa itu Node.js:
-  - V8 Engine, Event Loop, Non-blocking I/O **done ✓**
-  - Perbedaan Node.js vs Browser JS **done ✓**
-- Module System:
-  - CommonJS (`require`, `module.exports`) **done ✓**
-  - ES Modules (`import/export`) **done ✓**
-- Built-in Modules: `fs`, `path`, `os`, `http` **done ✓**
-- Asynchronous Pattern di Node.js **done ✓**
-- File System: baca, tulis, rename, hapus file **done ✓**
-- HTTP Server Dasar dengan `http.createServer()` **done ✓**
-- Environment Variable (`process.env`, `.env`, dotenv) **done ✓**
+* Built-in Modules: `fs`, `path`, `os`, `http`, `events` *done ✓*
+* Environment Variable & `process.env` *done ✓*
+* Membuat HTTP server manual (`http.createServer()`) *done ✓*
+* Konsep *stream* dan *buffer* *done ✓*
+* File I/O asynchronous (`fs.promises`) *done ✓*
+* Struktur project modular (tanpa Express) *done ✓*
+* Debugging dasar dengan `node --inspect` dan Chrome DevTools *done ✓*
+
+**Sumber:**
+
+* [Node.js API Docs](https://nodejs.org/api/)
+* [Stream Handbook by Substack](https://github.com/substack/stream-handbook)
 
 ---
 
-## LEVEL 3 — EXPRESS FRAMEWORK
+## LEVEL 3 — HTTP FRAMEWORK: EXPRESS
 
-> Tujuan: Membuat REST API modular dan mudah dikelola.
+> Tujuan: Menyederhanakan logika HTTP dan middleware system.
 
 ### Materi:
 
-- Instalasi & Setup Express.js **done ✓**
-- Routing (GET, POST, PUT, DELETE) **done ✓**
-- Middleware:
-  - Global, route-specific, custom middleware **done ✓**
-- Body Parser (JSON, URL-encoded) **done ✓**
-- Error Handling Middleware **done ✓**
-- Struktur Project Modular:
-  - Routes, Controllers, Services, Utils **done ✓**
-- Logging dengan `morgan` **done ✓**
+* Arsitektur Express & Middleware Flow *done ✓*
+* Routing dasar (GET, POST, PUT, DELETE) *done ✓*
+* Custom Middleware *done ✓*
+* Error Handling middleware *done ✓*
+* Static file & Template Engine *done ✓*
+* Modularisasi project (Routes, Controllers, Services, Utils) *done ✓*
+* Logging dengan `morgan` *done ✓*
+* Testing endpoint pakai Postman *done ✓*
+
+**Sumber:**
+
+* [Express.js Guide](https://expressjs.com/)
+* [Express Error Handling](https://expressjs.com/en/guide/error-handling.html)
 
 ---
 
-## LEVEL 4 — DATABASE INTEGRATION
+## LEVEL 4 — DATABASE & DATA INTEGRITY
 
-> Tujuan: Menghubungkan API dengan database dan mengelola data.
+> Tujuan: Memahami konsep data consistency dan implementasi database modern.
 
 ### Materi:
 
-- SQL vs NoSQL (perbedaan dan kegunaannya)
-- MongoDB + Mongoose:
-  - Schema, Model, CRUD, Query
-- PostgreSQL (opsional):
-  - Menggunakan `pg` module atau ORM (Sequelize)
-- Validation & Sanitization dengan `Joi` / `validator`
-- Error Handling database
+* SQL vs NoSQL (ACID vs BASE) 
+* Data Modeling: Entity Relationship & Document Structure
+* CRUD menggunakan Mongoose (MongoDB)
+* Query, Populate, dan Projection
+* Validation & Sanitization (`Joi`, `validator`)
+* Error Handling database
+* Transaction & Race Condition
+* Indexing dan Query Optimization (pengantar)
+
+**Sumber:**
+
+* [MongoDB Transactions](https://www.mongodb.com/docs/manual/core/transactions/)
+* [PostgreSQL Docs](https://www.postgresql.org/docs/)
 
 ---
 
 ## LEVEL 5 — AUTHENTICATION & SECURITY
 
-> Tujuan: Membuat sistem login yang aman dan API yang terlindungi.
+> Tujuan: Membangun sistem otentikasi yang aman dan scalable.
 
 ### Materi:
 
-- User Authentication:
-  - Hash password dengan `bcrypt`
-  - JWT (JSON Web Token)
-- Authorization (Role-based Access)
-- Security Best Practice:
-  - Helmet, CORS, Rate Limiting
-  - Input Validation & Sanitization
-- Session & Cookies (opsional)
+* Hash password dengan `bcrypt`
+* JWT Auth + Refresh Token Flow
+* Authorization (Role-based Access)
+* CORS, Helmet, Rate Limiting
+* SQL Injection & XSS prevention
+* Secure Config & Environment
+* Session vs Stateless Auth
+
+**Sumber:**
+
+* [OWASP NodeGoat](https://owasp.org/www-project-nodegoat/)
+* [JWT.io Guide](https://jwt.io/introduction)
 
 ---
 
-## LEVEL 6 — ADVANCED CONCEPTS
+## LEVEL 6 — SOFTWARE ARCHITECTURE & ADVANCED CONCEPTS
 
-> Tujuan: Menguasai arsitektur aplikasi, optimasi, dan testing.
+> Tujuan: Merancang kode yang bisa tumbuh dan dipelihara, bukan proyek skripsi.
 
 ### Materi:
 
-- MVC Architecture
-- Service Layer Pattern
-- File Upload (`multer`)
-- Caching dengan Redis
-- Unit Testing (Jest / Mocha / Supertest)
-- Cluster & Load Balancing
-- Error Logging (Winston / Morgan)
+* MVC vs Service Layer Pattern
+* Clean Architecture & Dependency Injection
+* File Upload (`multer`)
+* Caching dengan Redis
+* Unit Testing (Jest / Mocha / Supertest)
+* Logging dengan Winston
+* Cluster, Load Balancing, dan Scaling
+
+**Sumber:**
+
+* [Clean Architecture by Uncle Bob](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+* [Redis.io Docs](https://redis.io/docs/)
 
 ---
 
-## LEVEL 7 — DEPLOYMENT & MONITORING
+## LEVEL 7 — DEPLOYMENT, PROFILING & MONITORING
 
-> Tujuan: Membawa aplikasi ke internet dan memantau performanya.
+> Tujuan: Membuat sistem yang siap produksi, efisien, dan terukur.
 
 ### Materi:
 
-- Environment Management (dev, staging, production)
-- Deployment:
-  - Platform gratis: Render, Railway, Cyclic
-  - VPS: PM2 + Nginx
-- Logging & Monitoring:
-  - Winston, PM2 logs, Sentry
-- CI/CD (Opsional) dengan GitHub Actions
-- Dokumentasi API (Swagger / Postman)
+* Environment Management (dev, staging, prod)
+* Deployment:
+
+  * Platform gratis (Render, Railway)
+  * VPS: PM2 + Nginx
+* Profiling: `node --inspect`, CPU/Heap snapshot
+* Error & Performance Monitoring (Sentry, PM2 logs)
+* CI/CD (GitHub Actions)
+* API Documentation (Swagger / Postman Collection)
+
+**Sumber:**
+
+* [Node.js Profiling Guide](https://nodejs.org/en/docs/guides/simple-profiling/)
+* [PM2 Docs](https://pm2.keymetrics.io/docs/usage/quick-start/)
 
 ---
 
-## LEVEL 8 — MASTERING BACKEND
+## LEVEL 8 — SYSTEM SCALE & INTEGRATION
 
-> Tujuan: Menjadi backend engineer yang siap produksi dan memahami sistem besar.
+> Tujuan: Berpikir dalam konteks sistem besar, bukan sekadar API tunggal.
 
 ### Materi:
 
-- Clean Architecture
-- Repository Pattern
-- Design REST API Scalable:
-  - Pagination, Filtering, Sorting
-- Integrasi Frontend:
-  - REST API dan GraphQL
-  - Real-time Communication (Socket.io)
-- Microservice Concepts (Opsional):
-  - RabbitMQ / Kafka
-  - Event-driven architecture
-- Refactoring kode agar reusable & maintainable
+* Design REST API Scalable (Pagination, Filtering, Sorting)
+* API Gateway & Versioning
+* Realtime Communication (Socket.io)
+* GraphQL Basics
+* Message Queue (RabbitMQ / Kafka)
+* Event-driven Architecture
+* Refactoring reusable modules
+* Monorepo & Microservices (intro)
+
+**Sumber:**
+
+* [Node.js at Scale - RisingStack](https://blog.risingstack.com/node-js-at-scale-understanding-node-js-event-loop/)
+* [Kafka Architecture Overview](https://kafka.apache.org/documentation/#design)
 
 ---
 
-## Hasil Akhir
+## HASIL AKHIR
 
-Setelah menyelesaikan roadmap ini, kamu akan mampu:
+Mampu:
 
-- Membuat dan mengelola **REST API Production-Ready**
-- Menghubungkan API dengan database, sistem auth, dan frontend
-- Melakukan deployment dan monitoring sistem real-world
-- Siap bekerja sebagai **Backend Engineer profesional**
+* Membangun REST API Production-ready
+* Merancang sistem modular dan scalable
+* Memahami cara kerja runtime, bukan cuma framework
+* Melakukan profiling & deployment di dunia nyata
+* Siap jadi **Backend Engineer yang berpikir sistematis, bukan tukang CRUD**
 
----
-
-## Referensi & Sumber Belajar
-
-- [Node.js Docs](https://nodejs.org/en/docs)
-- [Express.js Guide](https://expressjs.com/)
-- [MongoDB Manual](https://www.mongodb.com/docs/)
-- [Mongoose Docs](https://mongoosejs.com/docs/)
-- [JWT.io](https://jwt.io/)
-- [Redis.io](https://redis.io/)
-
----
