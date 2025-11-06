@@ -13,6 +13,18 @@ export const getUsers = (req, res, next) => {
   }
 };
 
+export const detailUser = (req, res, next) => {
+  try {
+    console.log(typeof req.params.idUser);
+
+    const user = get(Number(req.params.idUser));
+
+    res.status(200).json(formatResponse(200, "Get User Successfully", user));
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const createUser = (req, res, next) => {
   try {
     const username = req.body.username;

@@ -1,18 +1,24 @@
 const users = [
   {
+    id: 1,
     username: "Fitra Maulana",
     age: 20,
     password: "12345323",
   },
   {
+    id: 2,
     username: "Tutur Budi P",
     age: 20,
     password: "eeees",
   },
 ];
 
-export const get = () => {
-  return users;
+export const get = (id) => {
+  if (id) {
+    return users.filter((res) => res.id === id);
+  } else {
+    return users;
+  }
 };
 
 export const post = (username, age, password) => {

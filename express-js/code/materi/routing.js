@@ -41,7 +41,7 @@ app.get(/.*fly$/, (req, res) => {
 
 // Kalian bisa menggunakan path ini (/users/:userId/books/:bookId) jika kalian punya 1 atau lebih paramater
 app.get("/users/:userId/books/:bookId", (req, res) => {
-  res.send(`${req.params.male} and ${req.params.female}`);
+  res.send(`${req.params.userId} and ${req.params.bookId}`);
 });
 
 // Atau kalian bisa menggunakan path ini (/ride/:from-:to) menggunakan simbol (-)
