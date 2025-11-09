@@ -1,12 +1,10 @@
-import dotenv from "dotenv";
 import mongoose from "mongoose";
-
-dotenv.config();
+import dotenv from "dotenv";
 
 export const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/employees");
-    console.log("Mongo db connect");
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("mongoonse connect");
   } catch (err) {
     console.error(err.message);
 
