@@ -12,7 +12,7 @@ export const create = async (req, res, next) => {
 
 export const get = async (req, res, next) => {
   try {
-    const result = await Student.find({});
+    const result = await Student.find({}).populate("faculty", "name");
     res.status(200).json(result);
   } catch (err) {
     next(err);

@@ -1,11 +1,10 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const studentSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     age: { type: Number, required: true },
-    study_programs: { type: String, required: true },
-    faculty: { type: String },
+    faculty: { type: Schema.Types.ObjectId, ref: "Faculty", required: true },
   },
   { timestamps: true }
 );
