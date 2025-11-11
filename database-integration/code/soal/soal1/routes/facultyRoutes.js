@@ -1,9 +1,18 @@
 import express from "express";
-import { create, get } from "../controllers/facultyController.js";
+import {
+  create,
+  del,
+  get,
+  show,
+  update,
+} from "../controllers/facultyController.js";
 
 const router = express.Router();
 
 router.post("/", create);
 router.get("/", get);
+router.get("/:name", show);
+router.patch("/:name", update);
+router.delete("/:name", del);
 
 export default router;

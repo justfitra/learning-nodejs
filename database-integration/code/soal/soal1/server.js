@@ -55,6 +55,7 @@ import { connectDB } from "./db/conection.js";
 import studentRouter from "./routes/studentRoutes.js";
 import morgan from "morgan";
 import facultyRouter from "./routes/facultyRoutes.js";
+import majorRouter from "./routes/majorRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -65,6 +66,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/students", studentRouter);
 app.use("/faculty", facultyRouter);
+app.use("/major", majorRouter);
 
 connectDB().then(() => {
   app.listen(process.env.PORT, () =>
