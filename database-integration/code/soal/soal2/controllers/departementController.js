@@ -16,7 +16,7 @@ export const create = async (req, res, next) => {
 
 export const get = async (req, res, next) => {
   try {
-    const result = await Departement.find({});
+    const result = await Departement.find({}).populate("worker");
 
     res.status(201).json(formatResponse(200, "Succesfully Get Data", result));
   } catch (err) {

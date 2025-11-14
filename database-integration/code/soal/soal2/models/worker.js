@@ -1,11 +1,14 @@
 import mongoose, { Schema } from "mongoose";
 
-const workerSchema = mongoose.Schema(
+const workerSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     address: { type: String, required: true },
     age: { type: Number },
-    departement: { type: Schema.type.ObjectId, ref: "Departement" },
+    position: { type: String },
+    salary: { type: Number },
+    departement: { type: Schema.Types.ObjectId, ref: "Departement" },
+    project: [{ type: Schema.Types.ObjectId, ref: "Project" }],
   },
   {
     timestamps: true,

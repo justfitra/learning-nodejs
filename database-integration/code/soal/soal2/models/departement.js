@@ -9,10 +9,13 @@ const departementSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-departementSchema.virtual("departement", {
+departementSchema.virtual("worker", {
   ref: "Worker",
   localField: "_id",
   foreignField: "departement",
 });
+
+departementSchema.set("toJSON", { virtuals: true });
+departementSchema.set("toObject", { virtuals: true });
 
 export const Departement = mongoose.model("Departement", departementSchema);
