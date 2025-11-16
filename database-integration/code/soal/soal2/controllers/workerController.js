@@ -16,19 +16,10 @@ export const create = async (req, res, next) => {
 
 export const get = async (req, res, next) => {
   try {
-    const result = await Worker.find({}).select("name address");
-    // .aggregate([
-    //   {
-    //     $group: {
-    //       _id: "$departement",
-    //       departement_total: { $sum: 1 },
-    //     },
-    //   },
-    // ]);
-    // .sort({ salary: -1 })
-    // .limit(3);
-    // .regex("name", /lana$/);
-
+    const result = await Worker.find({ salary: { $gt: 5000000 } })
+      .select("name position salary")
+      .sort({ salary: -1 })
+      .limit(2);
     res.status(200).json(formatResponse(200, "Success Get Data", result));
   } catch (err) {
     next(err);

@@ -18,7 +18,9 @@ export const get = async (req, res, next) => {
   try {
     const result = await Project.find({
       deadline: { $gt: new Date() },
-    }).populate("worker");
+    })
+      .select("name ")
+      .populate("worker");
 
     res.status(200).json(formatResponse(200, "Success Get Data", result));
   } catch (err) {

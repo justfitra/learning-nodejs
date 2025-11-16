@@ -19,9 +19,9 @@ Bagian 2 — PROJECTION PRAKTIK
 > Projection artinya ambil field tertentu aja, bukan semua kolom.
 > Gunakan parameter kedua di .find() atau method .select().
 
-1. Ambil semua data karyawan, tapi hanya tampilkan nama dan jabatan (tanpa _id, gaji, dan lainnya).
-2. Ambil semua proyek tapi hanya field nama dan deadline.
-3. Ambil semua departemen tapi sembunyikan lokasi.
+1. Ambil semua data karyawan, tapi hanya tampilkan nama dan jabatan (tanpa _id, gaji, dan lainnya). ✓
+2. Ambil semua proyek tapi hanya field nama dan deadline. ✓
+3. Ambil semua departemen tapi sembunyikan lokasi. ✓
 4. Ambil satu karyawan dengan nama = "Fitra" tapi hanya tampilkan nama, jabatan, dan nama departemennya (gunakan query manual tanpa populate).
 5. Gabungkan query dan projection:
 
@@ -29,8 +29,6 @@ Bagian 2 — PROJECTION PRAKTIK
     Tampilkan hanya nama, jabatan, dan gaji,
     Urutkan gaji secara descending,
     Limit hasilnya hanya 2 orang.
-
-
 
 Bonus Challenge (kalau kamu sudah tenang mikir)
 
@@ -57,7 +55,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/employe", departementRouter);
+app.use("/departement", departementRouter);
 app.use("/worker", workerRouter);
 app.use("/project", projectRouter);
 
