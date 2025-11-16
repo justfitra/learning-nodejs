@@ -72,7 +72,7 @@
 - SQL vs NoSQL (ACID vs BASE) _done ✓_
 - Data Modeling: Entity Relationship & Document Structure _done ✓_
 - CRUD menggunakan Mongoose (MongoDB) _done ✓_
-- Query, Populate, dan Projection
+- Query, Populate, dan Projection _done ✓_
 - Validation & Sanitization (`Joi`, `validator`)
 - Error Handling database
 - Transaction & Race Condition
