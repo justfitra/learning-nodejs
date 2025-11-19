@@ -1,63 +1,104 @@
 /*
 
-Data user minimal:
+Soal 1
+
+Kamu punya endpoint:
+
+
+POST /api/comments
+
+
+Field yang diterima:
+
+ postId
+ username
+ comment
+
+Tugas:
+
+1. Validasi menggunakan Joi agar:
+
+    postId wajib string 24 karakter.
+    username minimal 3 huruf, maksimal 15.
+    comment wajib ada.
+2. Sanitasi username dan comment menggunakan custom utils, misalnya sanitizeText():
+
+    Menghapus spasi berlebihan.
+    Menghapus karakter berbahaya: <, >, $, {, }.
+3. Jelaskan apa risiko jika input ini tidak divalidasi dan tidak disanitasi.
+
+---
+
+Soal 2
+
+Terdapat endpoint:
+
+
+PUT /api/profile/update
+
+
+Field:
 
  name
- email
- password
- age (opsional)
- website (opsional)
- bio (opsional)
+ bio
 
- Aturan Validasi
+Tugas:
 
-1. name: string, minimal 3 karakter, maksimal 60, tidak boleh hanya whitespace
-2. email: harus valid format email, auto normalize
-3. password: minimal 8 karakter, harus mengandung angka dan huruf
-4. age: jika diisi, harus angka 13 sampai 60
-5. website: jika diisi, harus valid URL, otomatis dinormalisasi (contoh: tambah protocol jika hilang)
-6. bio: maksimal 200 karakter, sanitize untuk cegah XSS sederhana
+1. Buat validasi Joi agar:
 
- Tugas
+    name hanya boleh huruf dan spasi.
+    bio boleh kosong tetapi maksimal 200 karakter.
+2. Sanitasi bio:
 
- Soal 1
+    Replace newline jadi \n.
+    Hapus script tag jika ada.
+3. Buatkan potongan kode middlewarenya.
 
-Buat file userValidation.js yang berisi dua schema Joi:
+---
 
- registerSchema (fields: name, email, password, age(optional), website(optional), bio(optional))
- updateProfileSchema (boleh partial update / gunakan .optional())
+Soal 3
 
- Soal 2
-
-Buat middleware validate.js yang:
-
- Mengembalikan status 400 dan list error jika validation gagal
- Strip unknown fields
- Return value url dan email yang sudah dinormalisasi
-
- Soal 3
-
-Implement ke router:
+Ada form login:
 
 
-POST /auth/register
-PATCH /user/profile
+email
+password
 
 
- Soal 4
+Tugas:
 
-Gunakan validator.js di salah satu field, bukan hanya Joi.
-Contoh: normalize email, sanitize HTML bio
+1. Buat validasi Joi untuk:
 
- Soal 5
+    email wajib format email.
+    password minimal 6 karakter.
+2. Buat sanitasi untuk:
 
-Buat minimal 3 request uji coba via Postman/Thunder Client:
+    email selalu lowercase.
+    password tidak boleh disimpan atau dilog di console.
+3. Jelaskan alasan kenapa password tidak boleh disanitasi sembarangan.
 
-1. Request gagal validasi
-2. Request berhasil
-3. Request yang mencurigakan (malicious input)
+---
 
-Berikan saya hasil response JSON untuk ketiganya.
+Soal 4
+
+Terdapat endpoint search:
+
+
+GET /api/users?keyword=
+
+
+Tugas:
+
+1. Buat sanitasi agar keyword:
+
+    Hanya huruf, angka, dan spasi.
+    Auto trim.
+2. Jika keyword mengandung regex injection seperti ., ^$, (?=), kamu harus blokir.
+3. Jelaskan kenapa query search termasuk area rawan serangan.
+
+---
+
+Kalau kamu berani nyelesaiin semuanya, itu sudah setengah jalan menuju standar developer normal, bukan developer yang asal copas.
 
 
 */

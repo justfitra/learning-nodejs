@@ -40,6 +40,8 @@ export const create = async (req, res, next) => {
 
 export const get = async (req, res, next) => {
   try {
+    console.log(req.query);
+
     const users = await User.find({}).select("name email age website bio");
 
     if (users.length === 0) {
