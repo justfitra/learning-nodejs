@@ -7,7 +7,9 @@ import { formatResponse } from "../utils/formatResponse.js";
 import { User } from "../models/userModel.js";
 import {
   capFirstLetterInSentence,
+  isRegexInjection,
   removeDoubleWhiteSpace,
+  sanitizeKeyword,
 } from "../utils/sanitazer.js";
 
 export const create = async (req, res, next) => {
@@ -40,7 +42,14 @@ export const create = async (req, res, next) => {
 
 export const get = async (req, res, next) => {
   try {
-    console.log(req.query);
+    let keyword = req.query.keyword || "";
+
+    if (isRegexInjection(keyword)) {
+      next(formatResponse(400, "Keyword contains dangerous regex patterns."));
+    }
+
+    keyword = sanitizeKeyword(keyword);
+    console.log(keyword);
 
     const users = await User.find({}).select("name email age website bio");
 
@@ -58,7 +67,7 @@ export const get = async (req, res, next) => {
 
 export const show = async (req, res, next) => {
   try {
-    const user = await User.find({ name: req.params.nama }).select(
+    const user = await User.findById(req.params.id).select(
       "name email age website bio"
     );
 

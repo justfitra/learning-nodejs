@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get("/", get);
 router.post("/", create);
-router.get("/:nama", show);
+router.get("/:id", show);
 router.patch("/:name", update);
 router.delete("/:name", del);
 

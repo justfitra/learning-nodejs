@@ -33,4 +33,13 @@ const create = async (req, res, next) => {
   }
 };
 
-export { create };
+const get = async (req, res, next) => {
+  try {
+    const comments = await Comment.find({});
+
+    res.status(200).json(formatResponse(200, "Get all comment successfully"));
+  } catch (err) {
+    next(formatResponse(500, err.message));
+  }
+};
+export { create, get };

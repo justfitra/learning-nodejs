@@ -3,7 +3,7 @@ import { dotenvConfig } from "./dotenv.js";
 
 export const connectDB = async () => {
   try {
-    await mongoose.connect(
+    const db = await mongoose.connect(
       `mongodb://${dotenvConfig.mongo_host}/${dotenvConfig.mongo_name}`
     );
     console.log("Connection Successfully");
