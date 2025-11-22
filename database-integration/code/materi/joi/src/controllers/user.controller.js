@@ -1,21 +1,13 @@
 import validator from "validator";
 import { userSchemaValidation } from "../validations/user.validation.js";
 import { User } from "../models/user.model.js";
+import { createUserServce } from "../services/user.service.js";
 
 export const create = async (req, res, next) => {
   try {
-    const sanitazeEmail = validator.normalizeEmail(req.body.email);
-    const playload = { ...req.body, email: sanitazeEmail };
+    const result = await createUserServce(req.body);
 
-    const { error } = userSchemaValidation.validate(playload);
-
-    if (error) {
-      return res.status(400).json({ message: error.details[0].message });
-    }
-
-    const user = await User.create(playload);
-
-    return res.status(201).json({ data: user });
+    return res.status(201).json({ data: result });
   } catch (err) {
     next(err);
   }
