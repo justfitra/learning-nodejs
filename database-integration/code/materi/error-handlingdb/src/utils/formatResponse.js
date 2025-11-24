@@ -1,4 +1,4 @@
-export const formatResponse = (status, message, data = null) => ({
+export const formatResponse = (status, message, data) => ({
   status,
   message,
   data,
