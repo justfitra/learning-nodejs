@@ -151,13 +151,15 @@ Jika user lewat limit, throw error.
 */
 
 import express from "express";
-import router from "./routers/userRouter.js";
+import userRouter from "./routers/userRouter.js";
 import { errorHandling } from "./middleware/errorHandling.js";
+import transactionRouter from "./routers/transactionRouter.js";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/api/users", router);
+app.use("/api/users", userRouter);
+app.use("/api/transactions", transactionRouter);
 app.use(errorHandling);
 export default app;

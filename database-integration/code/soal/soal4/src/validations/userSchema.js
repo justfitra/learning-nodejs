@@ -5,10 +5,7 @@ export const createUserSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
   role: Joi.string().required(),
-  age: Joi.number(),
-  address: Joi.string(),
-  street: Joi.string(),
-  city: Joi.string(),
+  balance: Joi.number().required(),
 });
 
 export const updateUserSchema = Joi.object({
@@ -16,8 +13,5 @@ export const updateUserSchema = Joi.object({
   email: Joi.string().email(),
   password: Joi.string().min(8),
   role: Joi.string(),
-  age: Joi.number(),
-  address: Joi.string(),
-  street: Joi.string(),
-  city: Joi.string(),
+  balance: Joi.number(),
 });

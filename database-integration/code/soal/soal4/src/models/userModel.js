@@ -10,10 +10,7 @@ const userSchema = new mongoose.Schema({
     default: "user",
     required: true,
   },
-  age: { type: Number },
-  address: { type: String },
-  street: { type: String },
-  city: { type: String },
+  balance: { type: Number },
 });
 
 export const User = mongoose.model("User", userSchema);
