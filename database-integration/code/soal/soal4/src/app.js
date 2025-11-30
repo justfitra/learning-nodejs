@@ -154,6 +154,7 @@ import express from "express";
 import userRouter from "./routers/userRouter.js";
 import { errorHandling } from "./middleware/errorHandling.js";
 import transactionRouter from "./routers/transactionRouter.js";
+import profileRouter from "./routers/profileRouter.js";
 
 const app = express();
 
@@ -161,5 +162,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRouter);
 app.use("/api/transactions", transactionRouter);
+app.use("/api/profile", profileRouter);
 app.use(errorHandling);
 export default app;
