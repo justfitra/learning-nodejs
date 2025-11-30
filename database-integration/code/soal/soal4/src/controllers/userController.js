@@ -10,8 +10,18 @@ export const createUser = async (req, res, next) => {
 
     res.status(201).json({ message: "User Created Successfully", data: user });
   } catch (err) {
-    console.log(err.message);
+    next(err);
+  }
+};
 
+export const getUser = async (req, res, next) => {
+  try {
+    // console.log(!req.query);
+
+    const users = await userService.get(req.query);
+
+    res.status(200).json({ message: "User Created Successfully", data: users });
+  } catch (err) {
     next(err);
   }
 };
