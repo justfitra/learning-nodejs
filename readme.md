@@ -73,8 +73,8 @@
 - Data Modeling: Entity Relationship & Document Structure _done ✓_
 - CRUD menggunakan Mongoose (MongoDB) _done ✓_
 - Query, Populate, dan Projection _done ✓_
-- Validation & Sanitization (`Joi`, `validator`)
-- Error Handling database
+- Validation & Sanitization (`Joi`, `validator`) _done ✓_
+- Error Handling database _done ✓_
 - Transaction & Race Condition
 - Indexing dan Query Optimization (pengantar)
 
