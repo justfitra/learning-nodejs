@@ -6,10 +6,10 @@ export const transactionService = async (fromUser, toUser, amount) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    // console.log(fromUser);
+    console.log(fromUser);
 
-    const sender = await User.findOne({ name: fromUser }).session(session);
-    const receiver = await User.findOne({ name: toUser }).session(session);
+    const sender = await User.findOne({ name: fromUser });
+    const receiver = await User.findOne({ name: toUser });
     if (!sender || !receiver) {
       throw new AppError("User not found", 404);
     }
@@ -19,10 +19,10 @@ export const transactionService = async (fromUser, toUser, amount) => {
     sender.balance -= amount;
     receiver.balance += amount;
 
-    await sender.save({ session });
-    await receiver.save({ session });
+    await sender.save();
+    await receiver.save();
     await session.commitTransaction();
-    // console.log("Transaction committed");
+    console.log("Transaction committed");
     return {
       from: fromUser,
       to: toUser,
@@ -32,6 +32,7 @@ export const transactionService = async (fromUser, toUser, amount) => {
   } catch (err) {
     await session.abortTransaction();
     console.log(err.message);
+    throw err;
   } finally {
     session.endSession();
   }
