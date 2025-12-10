@@ -9,7 +9,7 @@ export const create = async (payload) => {
   }
   const hasedPassword = await bcrypt.hash(payload.password, 9);
 
-  const user = await User.create({ payload, password: hasedPassword });
+  const user = await User.create({ ...payload, password: hasedPassword });
 
   return {
     name: user.name,
