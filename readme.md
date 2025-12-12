@@ -75,7 +75,7 @@
 - Query, Populate, dan Projection _done ✓_
 - Validation & Sanitization (`Joi`, `validator`) _done ✓_
 - Error Handling database _done ✓_
-- Transaction & Race Condition
+- Transaction & Race Condition _done ✓_
 - Indexing dan Query Optimization (pengantar)
 
 **Sumber:**
