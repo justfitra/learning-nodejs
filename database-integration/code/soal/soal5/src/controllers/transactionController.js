@@ -1,4 +1,4 @@
-import { transactionService } from "../services/transactionService.js";
+import * as transactionService from "../services/transactionService.js";
 import { formatResponse } from "../utils/formatResponse.js";
 
 export const transaction = async (req, res, next) => {
@@ -6,7 +6,7 @@ export const transaction = async (req, res, next) => {
     const fromUser = req.body.fromUser;
     const toUser = req.body.toUser;
     const amount = req.body.amount;
-    const result = await transactionService(fromUser, toUser, amount);
+    const result = await transactionService.create(fromUser, toUser, amount);
 
     return res
       .status(201)
