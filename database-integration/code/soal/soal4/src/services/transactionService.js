@@ -7,7 +7,9 @@ export const create = async (fromUser, toUser, amount) => {
   session.startTransaction();
   try {
     const sender = await User.findOne({ username: fromUser }).session(session);
-    const reciver = await User.findOne({ username: toUser }).session(session);
+    const reciver = await User.findOne({ username: toUser })
+      .session(session)
+      .set("lock");
 
     if (!sender || !reciver) {
       throw new AppError("Error User not found", 404);
