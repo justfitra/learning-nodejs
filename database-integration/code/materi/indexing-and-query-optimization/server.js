@@ -1,6 +1,9 @@
+import { seed } from "./dummy.js";
 import app from "./src/app.js";
 import { dbConnection } from "./src/config/db.js";
 import { envConfig } from "./src/config/envConfig.js";
+
+// seed();
 
 dbConnection();
 app.listen(envConfig.app_port, () => {

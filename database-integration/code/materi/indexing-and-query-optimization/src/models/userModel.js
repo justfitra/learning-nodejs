@@ -11,6 +11,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.index({ age: 1, name: 1 });
+userSchema.index({ age: 1 });
 
 export const User = mongoose.model("User", userSchema);

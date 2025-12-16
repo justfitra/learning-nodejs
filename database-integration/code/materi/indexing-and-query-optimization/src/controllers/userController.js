@@ -10,3 +10,13 @@ export const createUser = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getUser = async (req, res, next) => {
+  try {
+    const users = await userService.get();
+
+    res.status(201).json(formatResponse(200, " Succes", users));
+  } catch (err) {
+    next(err);
+  }
+};

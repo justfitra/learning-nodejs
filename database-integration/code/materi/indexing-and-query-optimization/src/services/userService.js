@@ -10,3 +10,9 @@ export const create = async (payload) => {
 
   return user;
 };
+
+export const get = async () => {
+  const users = await User.find({ age: 20 }).explain();
+
+  return users;
+};
