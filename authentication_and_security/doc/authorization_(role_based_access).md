@@ -178,7 +178,3 @@ Untuk sistem besar:
 
 RBAC adalah fondasi sistem backend yang aman dan terstruktur.
 Tanpa RBAC, aplikasi hanya punya login, bukan kontrol.
-
-```
-
-```
