@@ -1,9 +1,3 @@
-Ini versi **README.md yang rapi, valid Markdown, dan siap kamu taruh di repo**.
-Aku benahi fence yang bocor, heading konsisten, dan formatting tidak bikin reviewer menghela napas.
-
-Silakan copas mentah-mentah.
-
-```md
 # Authorization — Role-Based Access Control (RBAC)
 
 ## Tujuan
@@ -25,7 +19,6 @@ RBAC fokus di **authorization**.
 ---
 
 ## Konsep RBAC
-```
 
 User → Role → Permission
 
