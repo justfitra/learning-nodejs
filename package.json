@@ -1,5 +1,9 @@
 {
   "type": "module",
+  "scripts": {
+    "start": "node authentication_and_security/code/materi/authorization_role_based/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
