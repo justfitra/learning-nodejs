@@ -91,9 +91,9 @@
 
 ### Materi:
 
-- Hash password dengan `bcrypt`
-- JWT Auth + Refresh Token Flow
-- Authorization (Role-based Access)
+- Hash password dengan `bcrypt` _done ✓_
+- JWT Auth + Refresh Token Flow _done ✓_
+- Authorization (Role-based Access) _done ✓_
 - CORS, Helmet, Rate Limiting
 - SQL Injection & XSS prevention
 - Secure Config & Environment
