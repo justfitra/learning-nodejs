@@ -192,7 +192,7 @@ Auth & RBAC **setelah ini**.
 
 ---
 
-## 6. Kesalahan fatal pemula
+## 6. Kesalahan
 
 - Mengira CORS = security backend
 - Tidak pakai rate limit di login
