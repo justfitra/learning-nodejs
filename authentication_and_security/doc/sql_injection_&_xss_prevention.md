@@ -1,85 +1,80 @@
 # SQL Injection & XSS Prevention
 
-## 1. SQL Injection
+## Tujuan
 
-### Apa itu (versi jujur)
-
-Penyerang **menyisipkan query berbahaya** lewat input user supaya database menuruti kemauannya.
-
-Bukan hack canggih. Ini bug logika.
+Memahami dan menerapkan teknik pencegahan serangan **SQL Injection** dan **Cross-Site Scripting (XSS)** pada aplikasi backend berbasis Node.js agar sistem aman dari manipulasi input pengguna.
 
 ---
 
-### Contoh klasik (SALAH TOTAL)
+## 1. SQL Injection
+
+### 1.1 Pengertian
+
+SQL Injection adalah serangan dengan cara menyisipkan perintah SQL berbahaya melalui input pengguna, sehingga query database dapat dimanipulasi untuk mengakses atau merusak data.
+
+---
+
+### 1.2 Contoh SQL Injection
+
+Contoh implementasi yang **tidak aman**:
 
 ```js
 const query = `
-  SELECT * FROM users 
-  WHERE email = '${email}' 
+  SELECT * FROM users
+  WHERE email = '${email}'
   AND password = '${password}'
 `;
 ```
 
-Input attacker:
+Input berbahaya:
 
 ```
-email: ' OR 1=1 --
-password: apa aja
+' OR 1=1 --
 ```
 
-Query jadi:
+Query yang dieksekusi:
 
 ```sql
-SELECT * FROM users WHERE email = '' OR 1=1 --' AND password = ''
+SELECT * FROM users WHERE email = '' OR 1=1 --'
 ```
 
-Database:
-
-> “Oh, benar semua. Masuk.”
+Akibatnya, penyerang dapat login tanpa kredensial yang valid.
 
 ---
 
-## Cara Mencegah SQL Injection
+### 1.3 Pencegahan SQL Injection
 
-### 1️⃣ Gunakan Parameterized Query (WAJIB)
+#### a. Parameterized Query
 
-#### PostgreSQL
+Gunakan query berparameter agar input tidak dieksekusi sebagai SQL.
 
-```js
-const result = await pool.query("SELECT * FROM users WHERE email = $1", [
-  email,
-]);
-```
-
-#### MySQL
+**PostgreSQL**
 
 ```js
-connection.execute("SELECT * FROM users WHERE email = ?", [email]);
+await pool.query("SELECT * FROM users WHERE email = $1", [email]);
 ```
 
-Database **tidak akan mengeksekusi input sebagai query**.
+**MySQL**
+
+```js
+await connection.execute("SELECT * FROM users WHERE email = ?", [email]);
+```
 
 ---
 
-### 2️⃣ ORM / ODM (Mongoose aman secara default)
+#### b. Menggunakan ORM / ODM
+
+ORM seperti Sequelize atau ODM seperti Mongoose secara default menggunakan query aman.
 
 ```js
 User.findOne({ email: req.body.email });
 ```
 
-Ini **bukan string concat**, jadi aman dari SQL Injection.
-
-❗ Tapi tetap bisa salah kalau:
-
-```js
-User.find(req.body); // user ngirim operator Mongo
-```
+Namun, tetap perlu berhati-hati terhadap operator injection pada MongoDB.
 
 ---
 
-### 3️⃣ Jangan izinkan operator injection (MongoDB)
-
-Gunakan sanitization:
+#### c. Mencegah Operator Injection (MongoDB)
 
 ```js
 import mongoSanitize from "express-mongo-sanitize";
@@ -87,80 +82,56 @@ import mongoSanitize from "express-mongo-sanitize";
 app.use(mongoSanitize());
 ```
 
-Mencegah:
+---
 
-```json
-{ "email": { "$gt": "" } }
-```
+## 2. Cross-Site Scripting (XSS)
+
+### 2.1 Pengertian
+
+XSS adalah serangan dengan menyisipkan script JavaScript ke dalam input pengguna, yang kemudian dieksekusi di browser pengguna lain.
 
 ---
 
-## 2. XSS (Cross-Site Scripting)
+### 2.2 Contoh XSS
 
-### Apa itu
-
-Penyerang **menyisipkan JavaScript** ke input user lalu dieksekusi di browser korban.
-
-Backend aman, frontend kena. Tetap salah backend kalau membiarkan.
-
----
-
-### Contoh XSS
-
-User input:
+Input pengguna:
 
 ```html
 <script>
-  alert("pwned");
+  alert("XSS");
 </script>
 ```
 
-Kalau kamu simpan dan render mentah:
-
-```html
-<div>{{ comment }}</div>
-```
-
-Browser korban:
-
-> “Baik, saya jalankan.”
+Jika disimpan dan dirender tanpa sanitasi, script tersebut akan dijalankan di browser korban.
 
 ---
 
-## Cara Mencegah XSS
+### 2.3 Pencegahan XSS
 
-### 1️⃣ Jangan percaya input user (selalu)
-
-Sanitize input:
+#### a. Sanitasi Input
 
 ```js
 import xss from "xss";
 
-const safeComment = xss(req.body.comment);
+const cleanInput = xss(req.body.comment);
 ```
 
 ---
 
-### 2️⃣ Escape output di frontend
+#### b. Escape Output
 
-Framework modern:
-
-- React → escape otomatis
-- Vue → escape otomatis
-
-Bahaya:
-
-```jsx
-<div dangerouslySetInnerHTML={{ __html: data }} />
-```
-
-Itu namanya minta celaka.
+Framework frontend modern seperti React dan Vue melakukan escape output secara otomatis.
+Hindari penggunaan render HTML mentah tanpa sanitasi.
 
 ---
 
-### 3️⃣ Gunakan Helmet (CSP)
+#### c. Content Security Policy (CSP)
+
+Gunakan Helmet untuk menambahkan security headers.
 
 ```js
+import helmet from "helmet";
+
 app.use(
   helmet({
     contentSecurityPolicy: true,
@@ -168,43 +139,46 @@ app.use(
 );
 ```
 
-CSP membatasi script:
+---
 
-- inline JS diblok
-- script luar harus whitelist
+## 3. Perbedaan Validation dan Sanitization
+
+| Aspek  | Validation            | Sanitization                    |
+| ------ | --------------------- | ------------------------------- |
+| Fungsi | Mengecek format input | Membersihkan karakter berbahaya |
+| Contoh | Email valid           | Menghapus script                |
+| Wajib  | Ya                    | Ya                              |
+
+Validation dan sanitization harus digunakan bersamaan.
 
 ---
 
-## 3. Validation ≠ Sanitization
+## 4. Alur Penanganan Input yang Disarankan
 
-| Jenis        | Fungsi                   |
-| ------------ | ------------------------ |
-| Validation   | input sesuai format      |
-| Sanitization | buang karakter berbahaya |
-
-Keduanya **wajib**, tidak saling menggantikan.
-
----
-
-## 4. Contoh pipeline yang benar
-
-```js
-router.post("/comment", validate(commentSchema), sanitizeInput, createComment);
-```
-
-Bukan:
-
-```
-controller → database → berdoa
+```text
+Request
+  → Validation
+  → Sanitization
+  → Business Logic
+  → Database
 ```
 
 ---
 
-## 5. Kesalahan klasik
+## 5. Kesalahan Umum
 
-- Menganggap ORM kebal injection
-- Validasi tapi tidak sanitasi
-- Simpan HTML mentah
-- Nonaktifkan CSP karena error
+- Menggabungkan query SQL dengan string
+- Menganggap ORM sepenuhnya aman tanpa sanitasi
+- Menyimpan dan merender HTML mentah
+- Tidak menerapkan CSP
 
 ---
+
+## Kesimpulan
+
+SQL Injection dan XSS merupakan serangan yang umum namun berbahaya.
+Dengan penggunaan query berparameter, sanitasi input, serta pengamanan header HTTP, risiko serangan dapat diminimalkan secara signifikan.
+
+```
+
+```
