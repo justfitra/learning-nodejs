@@ -2,7 +2,15 @@
 
 ## Tujuan
 
+<<<<<<< HEAD
 Memahami dan menerapkan teknik pencegahan serangan **SQL Injection** dan **Cross-Site Scripting (XSS)** pada aplikasi backend berbasis Node.js agar sistem aman dari manipulasi input pengguna.
+=======
+### Apa itu 
+
+Penyerang **menyisipkan query berbahaya** lewat input user supaya database menuruti kemauannya.
+
+Bukan hack canggih. Ini bug logika.
+>>>>>>> a2fefb422ee6dd77b26b47573a868154f9c63a98
 
 ---
 
