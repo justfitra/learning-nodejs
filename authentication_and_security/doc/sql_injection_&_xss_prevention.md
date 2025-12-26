@@ -176,7 +176,3 @@ Request
 
 SQL Injection dan XSS merupakan serangan yang umum namun berbahaya.
 Dengan penggunaan query berparameter, sanitasi input, serta pengamanan header HTTP, risiko serangan dapat diminimalkan secara signifikan.
-
-```
-
-```
