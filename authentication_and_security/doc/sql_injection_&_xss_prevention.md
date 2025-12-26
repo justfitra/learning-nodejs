@@ -2,7 +2,7 @@
 
 ## 1. SQL Injection
 
-### Apa itu (versi jujur)
+### Apa itu 
 
 Penyerang **menyisipkan query berbahaya** lewat input user supaya database menuruti kemauannya.
 
