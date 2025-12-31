@@ -5,6 +5,7 @@ import { envConfig } from "./config/envConfig.js";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import userRouter from "./routes/userRoutes.js";
+import authRouter from "./routes/authRoutes.js";
 
 const app = express();
 const limiter = rateLimit({
@@ -26,6 +27,7 @@ app.use(
 );
 app.use(limiter);
 
+app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 
 app.use(errorHandler);
