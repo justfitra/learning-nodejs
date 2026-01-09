@@ -1,1 +1,10 @@
-export const authorization = (...allowedRoles) => {};
+import { AppError } from "../utils/appError.js";
+
+export const authorization =
+  (...allowedRoles) =>
+  (req, res, next) => {
+    if (!allowedRoles.includes(req.user.role)) {
+      throw new AppError("Forrbiden", 403);
+    }
+    next();
+  };
