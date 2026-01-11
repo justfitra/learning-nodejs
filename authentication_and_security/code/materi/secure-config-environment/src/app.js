@@ -4,6 +4,10 @@ import cors from "cors";
 import { envConfig } from "./config/envConfig.js";
 import rateLimit from "express-rate-limit";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import authRouter from "./routes/authRouter.js";
+import userRouter from "./routes/userRouter.js";
+import { authenticationValidate } from "./middlewares/authenticationValidate.js";
+import { authorization } from "./middlewares/authorization.js";
 
 const app = express();
 
@@ -25,8 +29,15 @@ app.use(
 );
 app.use(limiter);
 
-app.use();
-
+app.use("/api/auth", authRouter);
+app.use(
+  "/api/users",
+  authenticationValidate,
+  authorization("admin"),
+  userRouter
+);
 app.use(errorHandler);
 
 app.use(helmet());
+
+export default app;

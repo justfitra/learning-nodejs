@@ -9,6 +9,6 @@ export const dbConnect = async () => {
   } catch (err) {
     console.error(err.message);
 
-    process.env.exit();
+    process.env.exit(1);
   }
 };

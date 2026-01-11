@@ -1,5 +1,5 @@
 import express from "express";
-import { validate } from "../middlewares/validate";
+import { validate } from "../middlewares/validate.js";
 import { createUserSchema } from "../validations/userSchema.js";
 import { createUser } from "../controllers/userController.js";
 
