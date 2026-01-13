@@ -14,6 +14,7 @@ export const createLogin = async (req, res, next) => {
 export const createRegister = async (req, res, next) => {
   try {
     const response = await authService.register(req.body);
+    console.log("service" + req.body);
     return res
       .status(200)
       .json(formatResponse(201, "Register Success", response));

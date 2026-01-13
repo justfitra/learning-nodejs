@@ -48,12 +48,14 @@ export const register = async (payload) => {
 
   const password = await hashPassword(payload.password);
 
-  const confirmPassword = await comparePassword(payload.confirmationPassword);
+  const confirmPassword = await comparePassword(
+    payload.confirmPassword,
+    password
+  );
 
   if (!confirmPassword) {
     throw new AppError("You must be input same password", 401);
   }
-
   const user = await User.create({ ...payload, password: password });
 
   const accessToken = generateAccessToken({
