@@ -1,5 +1,5 @@
 import { envConfig } from "../config/envConfig.js";
-import { AppError } from "../utils/appError,js";
+import { AppError } from "../utils/appError.js";
 import jwt from "jsonwebtoken";
 export const verifyToken = (req, res, next) => {
   const headers = req.headers.authorization;
