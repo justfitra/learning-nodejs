@@ -6,7 +6,7 @@ import rateLimit from "express-rate-limit";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-
+import cookieSession from "cookie-session";
 const app = express();
 
 const limiter = rateLimit({
@@ -22,9 +22,18 @@ app.use(
     origin: [`http://${envConfig.app_host}:${envConfig.app_port}`],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-  })
+  }),
 );
 app.use(limiter);
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["key1", "key2"],
+    path: "/api/auth/register",
+    domain: "http://localhost:4000",
+    maxAge: 48 * 60 * 60 * 1000, // 2 days
+  }),
+);
 
 app.use("/api/auth/", authRouter);
 app.use("/api/users/", userRouter);
