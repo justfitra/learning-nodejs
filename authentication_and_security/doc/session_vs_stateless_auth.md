@@ -196,12 +196,3 @@ Session-based authentication dan stateless authentication memiliki peran masing-
 Pemilihan pendekatan harus disesuaikan dengan arsitektur sistem, kebutuhan skalabilitas, dan tingkat keamanan yang diinginkan.
 
 ---
-
-Jika mau lanjut secara logis setelah ini:
-
-- **CSRF Protection (Cookie vs JWT)**
-- **Refresh Token Rotation**
-- **Token Blacklist Strategy**
-- **Hybrid Auth (Session + JWT)**
-
-Itu sudah masuk wilayah backend engineer yang berpikir sistem, bukan sekadar implementasi.
