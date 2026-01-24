@@ -6,7 +6,10 @@ import rateLimit from "express-rate-limit";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-import cookieSession from "cookie-session";
+import csrf from "csrf";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+
 const app = express();
 
 const limiter = rateLimit({
@@ -26,18 +29,22 @@ app.use(
 );
 app.use(limiter);
 app.use(
-  cookieSession({
-    name: "session",
-    keys: ["key1", "key2"],
-    path: "/api/auth/register",
-    domain: "http://localhost:4000",
-    maxAge: 48 * 60 * 60 * 1000, // 2 days
+  session({
+    name: "sid",
+    secret: envConfig.jwt_access_secret,
+    resave: false,
   }),
 );
 
 app.use("/api/auth/", authRouter);
 app.use("/api/users/", userRouter);
+app.get("/csrf", (req, res) => {
+  const secret = csrf.secret();
+  const token = csrf.create(secret);
+  console.log(token);
 
+  res.status(200).json({ token: token });
+});
 app.use(errorHandler);
 
 export default app;
