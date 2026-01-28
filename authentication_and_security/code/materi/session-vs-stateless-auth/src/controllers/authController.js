@@ -23,3 +23,13 @@ export const authRegister = async (req, res, next) => {
     next(err);
   }
 };
+
+export const authLogout = async (req, res, next) => {
+  try {
+    await authService.logout(req.session);
+
+    return res.status(200).json(formatResponse(200, "Success"));
+  } catch (err) {
+    next(err);
+  }
+};
