@@ -13,25 +13,20 @@ export const login = async (payload) => {
 
   const validatePassword = await comparePassword(
     payload.password,
-    user.password
+    user.password,
   );
 
   if (!validatePassword) {
     throw new AppError("Email or Password wrong", 401);
   }
 
-  const accessToken = generateAccessToken({
-    userId: user._id,
+  const session = (req.session.user = {
+    id: user._id,
     role: user.role,
   });
 
-  const refreshToken = genreteRefreshToken({ userId: user._id });
-
-  await RefereshToken.create({ userId: user._id, token: refreshToken });
-
   return {
-    accessToken,
-    refreshToken,
+    session,
   };
 };
 
@@ -46,7 +41,7 @@ export const register = async (payload) => {
 
   const confirmPassword = await comparePassword(
     payload.confirmPassword,
-    password
+    password,
   );
 
   if (!confirmPassword) {
@@ -68,4 +63,14 @@ export const register = async (payload) => {
     accessToken,
     refreshToken,
   };
+};
+
+export const logout = async (session) => {
+  session.destroy((err) => {
+    if (err) {
+      throw new AppError("Logout Failed", 500);
+    }
+  });
+
+  res.clearCookie("sid");
 };
