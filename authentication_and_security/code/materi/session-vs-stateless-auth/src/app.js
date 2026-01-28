@@ -33,6 +33,16 @@ app.use(
     name: "sid",
     secret: envConfig.jwt_access_secret,
     resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: envConfig.database_url,
+    }),
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 1000,
+    },
   }),
 );
 
