@@ -94,10 +94,10 @@
 - Hash password dengan `bcrypt` _done ✓_
 - JWT Auth + Refresh Token Flow _done ✓_
 - Authorization (Role-based Access) _done ✓_
-- CORS, Helmet, Rate Limiting  _done ✓_
-- SQL Injection & XSS prevention  _done ✓_
-- Secure Config & Environment
-- Session vs Stateless Auth
+- CORS, Helmet, Rate Limiting _done ✓_
+- SQL Injection & XSS prevention _done ✓_
+- Secure Config & Environment _done ✓_
+- Session vs Stateless Auth _done ✓_
 
 **Sumber:**
 
@@ -135,7 +135,6 @@
 
 - Environment Management (dev, staging, prod)
 - Deployment:
-
   - Platform gratis (Render, Railway)
   - VPS: PM2 + Nginx
 
