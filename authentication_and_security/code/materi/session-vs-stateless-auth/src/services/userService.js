@@ -1,4 +1,5 @@
 import { User } from "../models/userModel.js";
+import { hashPassword } from "../utils/password.js";
 
 export const create = async (payload) => {
   const existUser = await User.findOne({ email: payload.email });
@@ -11,7 +12,7 @@ export const create = async (payload) => {
 
   const confirmPassword = await comparePassword(
     payload.confirmPassword,
-    password
+    password,
   );
 
   if (!confirmPassword) {

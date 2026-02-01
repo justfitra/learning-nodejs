@@ -1,4 +1,4 @@
-import { formatResponse } from "../utils/formatResponse";
+import { formatResponse } from "../utils/formatResponse.js";
 
 export const authSession = (req, res, next) => {
   if (!req.session.user) {

@@ -4,7 +4,7 @@ import { AppError } from "../utils/appError.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
 import { generateAccessToken, genreteRefreshToken } from "../utils/token.js";
 
-export const login = async (payload) => {
+export const login = async (payload, session) => {
   const user = await User.findOne({ email: payload.email });
 
   if (!user) {
@@ -20,13 +20,9 @@ export const login = async (payload) => {
     throw new AppError("Email or Password wrong", 401);
   }
 
-  const session = (req.session.user = {
+  session.user = {
     id: user._id,
     role: user.role,
-  });
-
-  return {
-    session,
   };
 };
 
@@ -71,6 +67,4 @@ export const logout = async (session) => {
       throw new AppError("Logout Failed", 500);
     }
   });
-
-  res.clearCookie("sid");
 };
