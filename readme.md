@@ -112,8 +112,8 @@
 
 ### Materi:
 
-- MVC vs Service Layer Pattern
-- Clean Architecture & Dependency Injection
+- MVC vs Service Layer Pattern _done ✓_
+- Clean Architecture & Dependency Injection _done ✓_
 - File Upload (`multer`)
 - Caching dengan Redis
 - Unit Testing (Jest / Mocha / Supertest)
