@@ -2,7 +2,6 @@ import { User } from "../models/userModels.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
 
 export const create = async (payload) => {
-  console.log(payload);
   const hsPass = await hashPassword(payload.password);
   const user = await User.create({
     name: payload.name,
