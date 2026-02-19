@@ -1,222 +1,153 @@
 # Clean Architecture & Dependency Injection
 
-## Tujuan
-
-Memahami dan menerapkan **Clean Architecture** agar sistem backend:
-
-- mudah dirawat
-- mudah diuji
-- tidak bergantung pada framework
-- siap berkembang dalam jangka panjang
-
-Dependency Injection digunakan sebagai mekanisme utama untuk menjaga **loose coupling** antar layer.
+Belajar tentang bagaimana menyusun kode backend yang bersih, fleksibel, dan mudah di-maintain menggunakan **Repository Pattern** dan **Dependency Injection** di atas arsitektur berlapis.
 
 ---
 
-## Masalah Arsitektur Konvensional
+## Masalah yang Diselesaikan
 
-Pada banyak aplikasi backend, sering ditemukan:
-
-- business logic bercampur dengan Express / HTTP
-- service langsung bergantung pada database
-- sulit melakukan unit testing
-- perubahan kecil berdampak ke banyak file
-
-Masalah ini muncul karena **dependency mengarah ke luar**, bukan ke dalam.
-
----
-
-## Konsep Clean Architecture
-
-Clean Architecture diperkenalkan oleh Robert C. Martin (Uncle Bob).
-
-### Prinsip Utama
-
-1. **Independence of Frameworks**  
-   Framework (Express, Mongoose) hanyalah detail, bukan inti sistem.
-
-2. **Separation of Concerns**  
-   Setiap layer memiliki tanggung jawab tunggal.
-
-3. **Dependency Rule**  
-   Dependency hanya boleh mengarah ke **inner layer**.
-
----
-
-## Layer dalam Clean Architecture
-
-```
-
-┌──────────────────────────┐
-│   Framework / Driver     │  (Express, DB, Redis)
-├──────────────────────────┤
-│   Interface Adapter      │  (Controller, Repository)
-├──────────────────────────┤
-│   Use Case / Service     │  (Business Logic)
-├──────────────────────────┤
-│   Entity / Domain        │  (Core Rules)
-└──────────────────────────┘
-
-```
-
----
-
-## Penjelasan Layer
-
-### 1. Entity / Domain
-
-- Berisi aturan bisnis inti
-- Tidak tahu database atau HTTP
-- Pure JavaScript logic
-
-Contoh:
+Tanpa Clean Architecture, kode mudah jadi berantakan:
 
 ```js
-export class User {
-  constructor(email, password) {
-    if (!email) throw new Error("Email required");
-    this.email = email;
-    this.password = password;
+// ❌ Controller langsung sentuh database — susah diganti, susah dites
+const getUser = async (req, res) => {
+  const user = await User.findById(req.params.id); // Mongoose langsung di controller
+  res.json(user);
+};
+```
+
+Kalau mau ganti MongoDB ke PostgreSQL, harus ubah semua controller satu-satu. Menyakitkan.
+
+---
+
+## Solusi: Layered Architecture + Repository Pattern
+
+Dengan memisahkan tanggung jawab tiap layer, perubahan database cukup dilakukan di **satu tempat** — repository.
+
+---
+
+## Struktur Folder
+
+```
+src/
+├── controllers/    → urusan HTTP: ambil request, kirim response
+├── services/       → urusan bisnis: hash password, validasi, logic
+├── repositories/   → urusan database: query, simpan, ambil data
+├── models/         → schema & koneksi ke database
+└── routes/         → hubungkan endpoint ke controller
+```
+
+---
+
+## Penjelasan Tiap Layer
+
+| Layer      | Tanggung Jawab        | Boleh Sentuh |
+| ---------- | --------------------- | ------------ |
+| Controller | HTTP request/response | Service      |
+| Service    | Business logic        | Repository   |
+| Repository | Database query        | Model        |
+| Model      | Schema database       | Database     |
+
+---
+
+## Contoh Implementasi
+
+### Model
+
+```js
+// models/userModel.js
+import mongoose from "mongoose";
+
+const userSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    password: { type: String, required: true },
+  },
+  { timestamps: true },
+);
+
+export const User = mongoose.model("User", userSchema);
+```
+
+### Repository
+
+```js
+// repositories/userRepository.js
+import { User } from "../models/userModel.js";
+
+export const get = async (id) => {
+  return await User.findById(id);
+};
+
+export const create = async (payload) => {
+  return await User.create(payload);
+};
+```
+
+### Service
+
+```js
+// services/userService.js — tidak tau MongoDB atau PostgreSQL
+import { hashPassword } from "../utils/hashPassword.js";
+
+export const get = async (repository, id) => {
+  return await repository.get(id);
+};
+
+export const create = async (repository, payload) => {
+  const password = await hashPassword(payload.password);
+  const user = await repository.create({ ...payload, password });
+  return { id: user._id, name: user.name };
+};
+```
+
+### Controller
+
+```js
+// controllers/userController.js
+import * as userService from "../services/userService.js";
+import * as userRepository from "../repositories/userRepository.js";
+
+export const get = async (req, res, next) => {
+  try {
+    const user = await userService.get(userRepository, req.params.id);
+    res.status(200).json({ status: 200, message: "Success", data: user });
+  } catch (err) {
+    next(err);
   }
-}
-```
+};
 
----
-
-### 2. Use Case / Service
-
-- Mengatur alur bisnis
-- Memanggil repository
-- Tidak tahu Express atau Mongoose
-
-```js
-export const createUserUseCase = (userRepo) => {
-  return async (payload) => {
-    const existing = await userRepo.findByEmail(payload.email);
-    if (existing) throw new Error("Email exists");
-
-    return userRepo.create(payload);
-  };
+export const create = async (req, res, next) => {
+  try {
+    const user = await userService.create(userRepository, req.body);
+    res.status(201).json({ status: 201, message: "Success", data: user });
+  } catch (err) {
+    next(err);
+  }
 };
 ```
 
 ---
 
-### 3. Interface Adapter
+## Dependency Injection
 
-Menghubungkan dunia luar ke core logic.
-
-#### Controller
+Service **tidak mengambil sendiri** dependency-nya — melainkan **dikasihin dari luar** oleh controller.
 
 ```js
-export const createUserController = (createUser) => {
-  return async (req, res) => {
-    const user = await createUser(req.body);
-    res.status(201).json(user);
-  };
-};
+// ❌ Tanpa DI — service import langsung, susah diganti
+import * as userRepository from "../repositories/userRepository.js"
+
+// ✅ Dengan DI — repository dikasihin dari controller
+export const get = async (repository, id) => { ... }
 ```
 
-#### Repository
-
-```js
-export const userRepositoryMongo = {
-  findByEmail: (email) => UserModel.findOne({ email }),
-  create: (data) => UserModel.create(data),
-};
-```
+**Keuntungan:** Kalau ganti database, cukup ubah 1 baris import di controller. Service tidak perlu disentuh.
 
 ---
 
-### 4. Framework / Driver
+## Key Takeaways
 
-- Express
-- Mongoose
-- Redis
-- External service
-
-Layer ini boleh berubah tanpa mengubah business logic.
-
----
-
-## Dependency Injection (DI)
-
-### Definisi
-
-Dependency Injection adalah teknik **memberikan dependency dari luar**, bukan membuatnya sendiri di dalam fungsi atau class.
-
----
-
-## Masalah Tanpa DI
-
-```js
-import User from "./model";
-
-export const createUser = async (payload) => {
-  return User.create(payload);
-};
-```
-
-Service tidak bisa:
-
-- diuji tanpa database
-- diganti repository-nya
-
----
-
-## Dengan Dependency Injection
-
-```js
-export const createUser = (userRepository) => {
-  return async (payload) => {
-    return userRepository.create(payload);
-  };
-};
-```
-
-Dependency disuntikkan dari luar.
-
----
-
-## Composition Root
-
-Semua dependency dirangkai di satu tempat.
-
-```js
-const createUser = createUserUseCase(userRepositoryMongo);
-const createUserController = createUserController(createUser);
-```
-
-Ini disebut **composition root**.
-
----
-
-## Manfaat Clean Architecture + DI
-
-- Unit testing tanpa database
-- Business logic reusable
-- Framework bisa diganti
-- Sistem lebih stabil
-- Mudah dikembangkan oleh tim
-
----
-
-## Kesalahan Umum
-
-- Mengira Clean Architecture harus rumit
-- Membuat terlalu banyak layer tanpa alasan
-- Mencampur HTTP logic ke service
-- Tidak konsisten dalam dependency injection
-
----
-
-## Kapan Menggunakan Clean Architecture
-
-Disarankan jika:
-
-- proyek jangka panjang
-- sistem kompleks
-- banyak developer
-- perlu testing serius
-
-Tidak wajib untuk proyek kecil atau prototype cepat.
+- **Repository Pattern** → isolasi semua kode database di satu tempat
+- **Service Layer** → tempat business logic, bukan controller, bukan repository
+- **Dependency Injection** → dependency dikasihin dari luar, bukan diambil sendiri
+- **Single Responsibility** → tiap layer punya 1 tanggung jawab, tidak lebih
