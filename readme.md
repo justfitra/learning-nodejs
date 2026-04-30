@@ -47,7 +47,7 @@
 
 ### Materi:
 
-- Arsitektur Express & Middleware Flow _done ✓_
+- [Arsitektur Express & Middleware Flow](/express-js/) _done ✓_
 - Routing dasar (GET, POST, PUT, DELETE) _done ✓_
 - Custom Middleware _done ✓_
 - Error Handling middleware _done ✓_
