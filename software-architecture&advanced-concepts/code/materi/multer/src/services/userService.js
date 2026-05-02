@@ -1,0 +1,30 @@
+import { AppError } from "../utils/appError.js";
+import { hashPassword } from "../utils/hashPassword.js";
+
+const get = async (repository, id) => {
+  try {
+    const user = await repository.get(id);
+
+    return user;
+  } catch (err) {
+    throw new AppError(err.message);
+  }
+};
+
+const create = async (repository, payload) => {
+  try {
+    const name = payload.body.name;
+    const password = await hashPassword(payload.body.password);
+    const image = payload.file;
+    const user = await repository.create({
+      name: name,
+      password: password,
+      image: image,
+    });
+
+    return user;
+  } catch (err) {
+    throw new AppError(err.message);
+  }
+};
+export { get, create };
