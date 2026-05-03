@@ -3,7 +3,7 @@ import mongoose, { mongo } from "mongoose";
 const userSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
-    image: { contentType: String, data: Buffer },
+    image: { type: String, required: true },
     password: { type: String, required: true },
   },
   {
