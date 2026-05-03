@@ -13,7 +13,6 @@ const get = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    // console.log(req.file);
     await userService.create(userRepository, req);
     res.status(200).json(formatResponse(201, "Success"));
   } catch (err) {
