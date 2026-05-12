@@ -114,7 +114,7 @@
 
 - MVC vs Service Layer Pattern _done ✓_
 - Clean Architecture & Dependency Injection _done ✓_
-- File Upload (`multer`)
+- File Upload (`multer`) _done ✓_
 - Caching dengan Redis
 - Unit Testing (Jest / Mocha / Supertest)
 - Logging dengan Winston
