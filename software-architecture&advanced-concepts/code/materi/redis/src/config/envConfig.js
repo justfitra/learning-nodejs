@@ -8,4 +8,5 @@ export const envConfig = {
   db_host: process.env.DB_HOST,
   db_name: process.env.DB_NAME,
   redis_url: process.env.REDIS_URL,
+  redis_password: process.env.REDIS_PASSWORD,
 };
