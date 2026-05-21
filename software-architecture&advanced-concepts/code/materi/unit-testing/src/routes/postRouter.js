@@ -10,6 +10,7 @@ import * as postController from "../controllers/postControllers.js";
 
 const router = express.Router();
 
+router.get("/", postController.get);
 router.post(
   "/",
   upload.single("image"),

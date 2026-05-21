@@ -1,5 +1,5 @@
 import express, { json, urlencoded } from "express";
-import postRouter from "../../redis/src/routes/productRouter.js";
+import postRouter from "../src/routes/postRouter.js";
 
 const app = express();
 

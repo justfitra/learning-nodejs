@@ -1,5 +1,5 @@
 import { redisClient } from "../config/redis.js";
-const CACHE_KEY = "products:all";
+const CACHE_KEY = "posts:all";
 const getPostCache = async () => {
   const cached = await redisClient.get(CACHE_KEY);
   if (!cached) {
@@ -9,8 +9,8 @@ const getPostCache = async () => {
   return JSON.parse(cached);
 };
 
-const setPostCache = async (products) => {
-  await redisClient.set(CACHE_KEY, JSON.stringify(products), {
+const setPostCache = async (posts) => {
+  await redisClient.set(CACHE_KEY, JSON.stringify(posts), {
     EX: 60,
   });
 };
