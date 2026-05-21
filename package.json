@@ -2,14 +2,13 @@
   "type": "module",
   "scripts": {
     "start": "node authentication_and_security/code/materi/authorization_role_based/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "connect-mongo": "^6.0.0",
     "cookie-session": "^2.1.1",
     "cors": "^2.8.5",
-    "csrf": "^3.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-mongo-sanitize": "^2.2.0",
