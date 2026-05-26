@@ -12,4 +12,28 @@ const create = async (payload) => {
   return post;
 };
 
-export { get, create };
+const update = async (payload, title) => {
+  const post = await Post.updateOne(
+    { title: title },
+    { ...payload },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  return post;
+};
+
+const show = async (title) => {
+  const post = await Post.find({ title: title });
+
+  return post;
+};
+
+const del = async (title) => {
+  const post = await Post.deleteOne({ title: title });
+
+  return post;
+};
+export { get, show, create, update, del };

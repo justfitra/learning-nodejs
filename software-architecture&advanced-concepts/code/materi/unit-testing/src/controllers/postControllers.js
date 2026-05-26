@@ -12,14 +12,24 @@ const get = async (req, res, next) => {
   }
 };
 
+const show = async (req, res, next) => {
+  try {
+    const post = await postService.show(postRepository, req.params);
+
+    res.status(200).json(formatResponse(200, "Success", post));
+  } catch (err) {
+    next(err);
+  }
+};
+
 const create = async (req, res, next) => {
   try {
     const post = await postService.create(postRepository, req);
-
+    console.log(post);
     res.status(201).json(formatResponse(201, "Success", post));
   } catch (err) {
     next(err);
   }
 };
 
-export { create, get };
+export { create, show, get };

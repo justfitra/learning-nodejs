@@ -4,7 +4,7 @@ export const imageValidate = (schema) => (req, res, next) => {
   const imageError = schema(req.file);
   if (imageError.error) {
     return res
-      .status(imageError.status)
+      .status(400)
       .json(formatResponse(imageError.status, imageError.error));
   }
 

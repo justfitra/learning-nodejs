@@ -40,4 +40,24 @@ const create = async (repository, payload) => {
   }
 };
 
-export { get, create };
+const show = async (repository, title) => {
+  try {
+    const cached = await getPostCache();
+
+    if (cached) {
+      console.log("Data from Redis");
+      return cached;
+    }
+
+    const post = await repository.show(title);
+    await setPostCache(post);
+
+    console.log("Data from Mongo DB");
+
+    return post;
+  } catch (err) {
+    throw new AppError(err.message);
+  }
+};
+
+export { get, show, create };

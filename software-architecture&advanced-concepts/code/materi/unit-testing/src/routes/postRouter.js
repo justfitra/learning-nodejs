@@ -11,12 +11,13 @@ import * as postController from "../controllers/postControllers.js";
 const router = express.Router();
 
 router.get("/", postController.get);
+router.get("/:title", postController.show);
 router.post(
   "/",
   upload.single("image"),
   validate(createPostSchema),
   imageValidate(createPostImageSchema),
-  postController.get,
+  postController.create,
 );
 
 export default router;
