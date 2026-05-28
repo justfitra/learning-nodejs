@@ -1,50 +1,120 @@
-# Unit Testing pada Express.js (Jest & Supertest)
+# Unit Testing pada Express.js
 
 ## Tujuan
 
-Memahami implementasi testing pada aplikasi Express.js menggunakan:
+Memahami implementasi testing modern pada backend Express.js menggunakan:
 
 - Jest
 - Supertest
+- Mocking
+- Dependency Isolation
 
 Testing digunakan untuk:
 
-- memastikan endpoint berjalan benar
-- menguji business logic
-- mengurangi bug
+- memastikan endpoint stabil
+- menjaga business logic tetap benar
+- mengurangi regression bug
 - mempermudah refactor
+- mendukung scalable architecture
 
 ---
 
 # Konsep Dasar Testing
 
-Pada backend Express.js terdapat beberapa level testing:
+Testing backend modern dibagi menjadi beberapa level:
 
-| Jenis            | Fokus                         |
-| ---------------- | ----------------------------- |
-| Unit Test        | Menguji satu unit logic       |
-| Integration Test | Menguji integrasi endpoint    |
-| End-to-End Test  | Menguji aplikasi secara penuh |
+| Jenis Testing       | Fokus                         |
+| ------------------- | ----------------------------- |
+| Unit Testing        | Menguji satu unit logic       |
+| Integration Testing | Menguji integrasi antar layer |
+| End-to-End Testing  | Menguji aplikasi secara penuh |
+| Performance Testing | Mengukur performa sistem      |
 
 Pada Express.js:
 
 - Jest → testing framework
-- Supertest → testing HTTP endpoint
+- Supertest → HTTP testing
+- Mocking → simulasi dependency
 
 ---
 
-# Kenapa Testing Penting
+# Filosofi Testing Modern
+
+Testing bukan sekadar:
+
+```text
+"apakah function berjalan"
+```
+
+Tetapi:
+
+```text
+"apakah sistem tetap aman saat kode berubah"
+```
+
+Karena backend production selalu berubah:
+
+- fitur baru
+- refactor
+- scaling
+- optimization
+- developer baru masuk
 
 Tanpa testing:
 
-- perubahan kecil bisa merusak endpoint lain
-- bug sering lolos ke production
-- refactor menjadi berbahaya
+```text
+setiap deploy menjadi spekulasi
+```
 
-Testing membantu developer memastikan:
+---
+
+# Arsitektur Testing
+
+Backend modern biasanya memiliki struktur:
 
 ```text
-fitur tetap berjalan setelah perubahan kode
+Route
+ → Controller
+   → Service
+     → Repository
+       → Database
+```
+
+---
+
+# Layer yang Diuji
+
+| Layer        | Jenis Test         |
+| ------------ | ------------------ |
+| Service      | Unit Test          |
+| Controller   | Unit / Integration |
+| Route        | Integration        |
+| Database     | Integration        |
+| External API | Mocked             |
+
+---
+
+# Kenapa Service Layer Paling Penting
+
+Karena business logic biasanya berada di:
+
+```text
+service layer
+```
+
+Contoh:
+
+- login
+- payment
+- stock validation
+- transaction
+- authorization
+- RBAC
+
+Jika service salah:
+
+```text
+seluruh sistem ikut salah
 ```
 
 ---
@@ -57,8 +127,9 @@ Digunakan untuk:
 
 - assertion
 - mocking
-- test runner
 - coverage
+- async testing
+- test runner
 
 ---
 
@@ -66,80 +137,77 @@ Digunakan untuk:
 
 Digunakan untuk:
 
-- testing request HTTP
-- testing Express endpoint
-- simulasi client request
+- simulasi HTTP request
+- testing endpoint Express
+- testing middleware
+- testing upload file
 
 ---
 
 # Instalasi
 
-```bash id="dz3nv0"
+```bash
 npm install --save-dev jest supertest
 ```
 
 ---
 
-# Struktur Folder
+# Struktur Folder Modern
 
-```text id="5dt6o0"
+```text
 src/
 ├── controllers/
 ├── services/
+├── repositories/
 ├── routes/
+├── middleware/
 ├── app.js
 └── server.js
 
 tests/
 ├── unit/
-└── integration/
+│   ├── services/
+│   ├── middleware/
+│   └── utils/
+│
+├── integration/
+│   ├── auth/
+│   └── products/
+│
+└── setup/
 ```
 
 ---
 
-# Konfigurasi package.json
-
-```json id="7u8k8n"
-{
-  "scripts": {
-    "test": "jest"
-  }
-}
-```
-
----
-
-# Setup Express App
+# Kenapa app.js dan server.js Dipisah
 
 ## app.js
 
-```js id="1i7f7i"
+Berisi:
+
+- middleware
+- routes
+- express app
+
+```js
 import express from "express";
-import productRoute from "./routes/product.route.js";
 
 const app = express();
 
 app.use(express.json());
-
-app.use("/products", productRoute);
 
 export default app;
 ```
 
 ---
 
-# Kenapa app dan server dipisah?
+## server.js
 
-Karena:
+Berisi:
 
-- Supertest membutuhkan instance Express
-- server.listen() tidak boleh ikut saat testing
+- app.listen()
 
----
-
-# server.js
-
-```js id="n6f11o"
+```js
 import app from "./app.js";
 
 app.listen(3000, () => {
@@ -149,33 +217,49 @@ app.listen(3000, () => {
 
 ---
 
-# Contoh Endpoint
+# Kenapa Harus Dipisah
 
-## product.route.js
+Karena Supertest membutuhkan:
 
-```js id="9pt2zv"
-import express from "express";
+```js
+request(app);
+```
 
-const router = express.Router();
+Bukan:
 
-router.get("/", (req, res) => {
+```text
+server sungguhan
+```
+
+Jika tidak dipisah:
+
+- port conflict
+- testing lambat
+- sulit diisolasi
+
+---
+
+# Integration Testing
+
+## Contoh Endpoint
+
+### Route
+
+```js
+router.get("/", async (req, res) => {
   res.json([
     {
       name: "Laptop",
     },
   ]);
 });
-
-export default router;
 ```
 
 ---
 
-# Integration Testing dengan Supertest
+# Test Endpoint
 
-## tests/integration/product.test.js
-
-```js id="22my4d"
+```js
 import request from "supertest";
 
 import app from "../../src/app.js";
@@ -201,11 +285,7 @@ describe("GET /products", () => {
 
 ## request(app)
 
-```js id="p1qzqg"
-request(app);
-```
-
-Mensimulasikan HTTP request ke Express app.
+Mensimulasikan request HTTP.
 
 ---
 
@@ -213,19 +293,11 @@ Mensimulasikan HTTP request ke Express app.
 
 Memastikan status response benar.
 
-```js id="tt7s14"
-expect(response.statusCode).toBe(200);
-```
-
 ---
 
 ## response.body
 
-Memastikan body response sesuai.
-
-```js id="9fr5wx"
-expect(response.body).toEqual(...)
-```
+Memastikan data response benar.
 
 ---
 
@@ -233,7 +305,7 @@ expect(response.body).toEqual(...)
 
 ## Route
 
-```js id="mwoc8l"
+```js
 router.post("/", (req, res) => {
   res.status(201).json(req.body);
 });
@@ -243,7 +315,7 @@ router.post("/", (req, res) => {
 
 # Test
 
-```js id="4dtz52"
+```js
 describe("POST /products", () => {
   it("should create product", async () => {
     const payload = {
@@ -262,43 +334,34 @@ describe("POST /products", () => {
 
 ---
 
-# Testing Error Response
+# Testing Upload File
 
-## Route
+Supertest mendukung multipart/form-data.
 
-```js id="z0m7f4"
-router.post("/", (req, res) => {
-  if (!req.body.name) {
-    return res.status(400).json({
-      message: "Name required",
-    });
-  }
+---
 
-  res.status(201).json(req.body);
+# Contoh Upload
+
+```js
+describe("POST /posts", () => {
+  it("should upload image", async () => {
+    const response = await request(app)
+      .post("/posts")
+      .field("title", "Post")
+      .attach("image", "./tests/test.jpg");
+
+    expect(response.statusCode).toBe(201);
+  });
 });
 ```
 
 ---
 
-# Test
+# Unit Testing Service
 
-```js id="3z9h1s"
-it("should return 400 if name missing", async () => {
-  const response = await request(app).post("/products").send({});
+## Service
 
-  expect(response.statusCode).toBe(400);
-
-  expect(response.body.message).toBe("Name required");
-});
-```
-
----
-
-# Unit Testing Service Layer
-
-## product.service.js
-
-```js id="6g8s8k"
+```js
 export const calculateDiscount = (price, discount) => {
   return price - price * discount;
 };
@@ -308,7 +371,7 @@ export const calculateDiscount = (price, discount) => {
 
 # Test
 
-```js id="r3p2d9"
+```js
 import { calculateDiscount } from "../../src/services/product.service.js";
 
 describe("calculateDiscount", () => {
@@ -324,13 +387,21 @@ describe("calculateDiscount", () => {
 
 # Mocking Dependency
 
+## Kenapa Mocking Penting
+
 Pada backend:
 
 - database
 - Redis
 - external API
 
-biasanya di-mock.
+tidak boleh benar-benar dipanggil saat unit test.
+
+Karena:
+
+- lambat
+- tidak stabil
+- dependency tinggi
 
 ---
 
@@ -338,7 +409,7 @@ biasanya di-mock.
 
 ## Service
 
-```js id="83u7go"
+```js
 import { productRepository } from "../repositories/product.repository.js";
 
 export const getProductsService = async () => {
@@ -350,7 +421,7 @@ export const getProductsService = async () => {
 
 # Test
 
-```js id="h8x4jg"
+```js
 import { getProductsService } from "../../src/services/product.service.js";
 
 import { productRepository } from "../../src/repositories/product.repository.js";
@@ -376,9 +447,84 @@ describe("getProductsService", () => {
 
 ---
 
+# Penjelasan Mocking
+
+## mockResolvedValue()
+
+Mensimulasikan:
+
+```js
+Promise.resolve();
+```
+
+---
+
+## mockRejectedValue()
+
+Mensimulasikan:
+
+```js
+Promise.reject();
+```
+
+---
+
+# Error Testing
+
+Backend production lebih sering gagal di:
+
+- validation
+- authorization
+- edge case
+- invalid state
+
+Maka testing error sangat penting.
+
+---
+
+# Contoh Error Test
+
+```js
+it("should throw unauthorized", async () => {
+  await expect(loginService({})).rejects.toThrow("Unauthorized");
+});
+```
+
+---
+
+# Testing Middleware
+
+## Contoh Middleware
+
+```js
+export const auth = (req, res, next) => {
+  if (!req.headers.authorization) {
+    return res.status(401).json({
+      message: "Unauthorized",
+    });
+  }
+
+  next();
+};
+```
+
+---
+
+# Test Middleware
+
+```js
+it("should return 401", async () => {
+  const response = await request(app).get("/products");
+
+  expect(response.statusCode).toBe(401);
+});
+```
+
+---
+
 # Async Testing
 
-Karena Express banyak menggunakan:
+Karena backend modern menggunakan:
 
 ```text
 async / await
@@ -388,19 +534,11 @@ Maka testing juga harus async.
 
 ---
 
-# Menjalankan Test
-
-```bash id="x8w4v9"
-npm test
-```
-
----
-
 # Coverage
 
 ## Menjalankan Coverage
 
-```bash id="9twl0q"
+```bash
 npm test -- --coverage
 ```
 
@@ -408,7 +546,7 @@ npm test -- --coverage
 
 # Output Coverage
 
-```text id="5bctq4"
+```text
 Statements : 90%
 Functions  : 88%
 Branches   : 84%
@@ -417,87 +555,158 @@ Lines      : 91%
 
 ---
 
-# Best Practices
+# Apakah Coverage 100% Wajib
 
-## 1. Pisahkan Unit dan Integration Test
+Tidak.
 
-```text id="75j2dr"
+Coverage tinggi:
+
+```text
+≠ testing bagus
+```
+
+Yang lebih penting:
+
+- business logic teruji
+- error handling teruji
+- edge case diuji
+
+---
+
+# Best Practice 2026
+
+## 1. Fokus pada Service Layer
+
+Business logic harus mudah di-test.
+
+---
+
+## 2. Gunakan Dependency Injection
+
+Dependency yang injectable:
+
+- lebih mudah di-mock
+- lebih mudah di-test
+
+---
+
+## 3. Jangan Testing Database Asli pada Unit Test
+
+Gunakan:
+
+- mock
+- fake repository
+- isolated environment
+
+---
+
+## 4. Pisahkan Unit dan Integration Test
+
+```text
 tests/unit
 tests/integration
 ```
 
 ---
 
-## 2. Mock Dependency Eksternal
-
-Jangan gunakan:
-
-- database asli
-- Redis asli
-- external API
-
-untuk unit testing.
-
----
-
-## 3. Test Success dan Error Case
+## 5. Test Error Case
 
 Minimal:
 
-- happy path
 - validation error
 - unauthorized
+- forbidden
 - not found
+- conflict
 
 ---
 
-## 4. Gunakan Nama Test Jelas
+## 6. Gunakan Environment Khusus Testing
 
-Bagus:
+Contoh:
 
-```text id="5y7hd8"
-should return products
-```
-
-Buruk:
-
-```text id="d8cdlt"
-test1
+```env
+NODE_ENV=test
 ```
 
 ---
 
 # Kesalahan Umum
 
-- Testing langsung ke production database
-- Tidak memisahkan app dan server
-- Tidak menguji error response
-- Test terlalu besar
+- Testing langsung ke production DB
 - Tidak menggunakan mock
+- Controller terlalu banyak logic
+- Test terlalu besar
+- Tidak menguji error path
 
 ---
 
-# Kapan Supertest Digunakan
+# CI/CD dan Testing
+
+Pada production modern:
+
+```text
+Developer push code
+ → CI/CD berjalan
+   → Testing otomatis
+      → Deploy jika semua test sukses
+```
+
+Karena bug production:
+
+- mahal
+- merusak user trust
+- sulit diperbaiki saat live traffic
+
+---
+
+# Kapan Menggunakan Supertest
 
 Gunakan Supertest untuk:
 
-- testing endpoint Express
+- testing endpoint
 - testing middleware
-- testing authentication flow
-- testing request/response
+- testing auth flow
+- testing upload file
+- testing cookie/session
+
+---
+
+# Kapan Menggunakan Mock
+
+Gunakan mock untuk:
+
+- database
+- Redis
+- email service
+- external API
+- payment gateway
 
 ---
 
 # Kesimpulan
 
-Testing pada Express.js membantu memastikan:
+Testing pada Express.js adalah fondasi backend modern.
 
-- endpoint stabil
-- logic berjalan benar
-- refactor lebih aman
-
-Jest dan Supertest menjadi kombinasi umum karena:
+Jest dan Supertest menjadi kombinasi populer karena:
 
 - ringan
-- sederhana
-- powerful
+- fleksibel
+- cepat
+- mudah diintegrasikan dengan CI/CD
+
+Testing bukan sekadar formalitas.
+
+Pada sistem production:
+
+```text
+testing adalah alat untuk menjaga stabilitas sistem
+```
+
+Karena semakin besar aplikasi:
+
+- semakin kompleks flow
+- semakin banyak edge case
+- semakin mahal biaya bug production
+
+Dan backend tanpa testing cepat atau lambat akan berubah menjadi sistem yang ditakuti developernya sendiri.
