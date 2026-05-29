@@ -8,6 +8,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import fs from "fs";
+import * as postService from "../../services/postService.js";
+import * as postRepository from "../../repositories/postRepository.js";
+import { Post } from "../../models/postModel.js";
+import { object } from "joi";
+import { title } from "process";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,11 +47,48 @@ describe("POST /posts", () => {
     const response = await request(app)
       .post("/api/v1/post")
       .field("title", faker.person.fullName())
-      .field("price", faker.number.int())
+      .field("price", faker.number.int({ min: 1000, max: 100000 }))
       .attach("image", imgPath);
 
-    console.log(response.error);
-
     expect(response.statusCode).toBe(201);
+  });
+});
+
+describe("GET service /posts", () => {
+  test("should retrun a post service", async () => {
+    const result = await postService.get(postRepository);
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          title: expect.any(String),
+          price: expect.any(Number),
+          image: expect.any(String),
+        }),
+      ]),
+    );
+  });
+});
+
+describe("POST service /posts", () => {
+  test("should create a post service", async () => {
+    const payload = {
+      body: {
+        title: faker.person.fullName(),
+        price: faker.number.int({ min: 1000, max: 100000 }),
+      },
+      file: {
+        filename: imgPath,
+      },
+    };
+    const result = await postService.create(postRepository, payload);
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        title: expect.any(String),
+        price: expect.any(Number),
+        image: expect.any(String),
+      }),
+    );
   });
 });
