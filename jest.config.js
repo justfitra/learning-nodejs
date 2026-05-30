@@ -3,5 +3,5 @@ export default {
   globalSetup:
     "./software-architecture&advanced-concepts/code/materi/unit-testing/jest.setup.js",
   transform: {},
-  testTimeout: 5000, // ⬅️ load .env sebelum apapun dijalankan
+  testTimeout: 5000,
 };
