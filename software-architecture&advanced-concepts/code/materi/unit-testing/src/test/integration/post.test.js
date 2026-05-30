@@ -13,17 +13,23 @@ import * as postRepository from "../../repositories/postRepository.js";
 import { Post } from "../../models/postModel.js";
 import { object } from "joi";
 import { title } from "process";
+import { clearDB, closeDB, connectDB } from "../setup/mongodb.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const imgPath = path.join(__dirname, "fixtures", "test.png");
+
 beforeAll(async () => {
-  await mongoose.connect(`${envConfig.db_host}/${envConfig.db_name}`);
+  await connectDB();
+});
+
+afterEach(async () => {
+  await clearDB();
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
+  await closeDB();
 });
 
 describe("GET /posts", () => {
@@ -31,6 +37,8 @@ describe("GET /posts", () => {
     const response = await request(app).get("/api/v1/post");
 
     expect(response.statusCode).toBe(200);
+
+    expect(Array.isArray(response.body.data)).toBe(true);
   });
 });
 
@@ -56,8 +64,15 @@ describe("POST /posts", () => {
 
 describe("GET service /posts", () => {
   test("should retrun a post service", async () => {
+    await Post.create({
+      title: faker.person.fullName(),
+      price: faker.number.int({ min: 1000, max: 100000 }),
+      image: "test.jpg",
+    });
+
     const result = await postService.get(postRepository);
 
+    expect(Array.isArray(result)).toBe(true);
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -92,3 +107,9 @@ describe("POST service /posts", () => {
     );
   });
 });
+
+// describe("get",() => {
+//   test("should return posts", async () => {
+//     const mo
+//   })
+// })
