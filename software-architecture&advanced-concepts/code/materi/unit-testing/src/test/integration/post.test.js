@@ -14,6 +14,7 @@ import { Post } from "../../models/postModel.js";
 import { object } from "joi";
 import { title } from "process";
 import { clearDB, closeDB, connectDB } from "../setup/mongodb.js";
+import { jest } from "@jest/globals";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -32,6 +33,7 @@ afterAll(async () => {
   await closeDB();
 });
 
+jest.mock("../../repositories/postRepository.js");
 describe("GET /posts", () => {
   test("should return posts", async () => {
     const response = await request(app).get("/api/v1/post");
@@ -107,9 +109,30 @@ describe("POST service /posts", () => {
     );
   });
 });
+describe("GET service /posts", () => {
+  test("should return posts", async () => {
+    const mockRepository = {
+      get: jest.fn(),
+    };
 
-// describe("get",() => {
-//   test("should return posts", async () => {
-//     const mo
-//   })
-// })
+    mockRepository.get.mockResolvedValue([
+      {
+        title: "Laptop",
+        price: 1000,
+        image: "test.jpg",
+      },
+    ]);
+
+    const result = await postService.get(mockRepository);
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          title: expect.any(String),
+          price: expect.any(Number),
+          image: expect.any(String),
+        }),
+      ]),
+    );
+  });
+});
