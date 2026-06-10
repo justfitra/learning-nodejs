@@ -159,6 +159,227 @@ export const uploadImage = (req, res) => {
 
 ---
 
+## CRUD file upload (multer)
+
+### 1. Create
+
+Controller
+
+```js
+const create = async (req, res, next) => {
+  try {
+    const product = await productService.create(productRepository, req);
+
+    res.status(201).json(formatResposne(201, "Success", product));
+  } catch (err) {
+    next(err);
+  }
+};
+```
+
+Service
+
+```js
+const create = async (repository, payload) => {
+  try {
+    const product = await repository.create({
+      ...payload.body,
+      image: payload.file.filename,
+    });
+
+    await deleteProductCache();
+
+    return product;
+  } catch (err) {
+    throw new AppError(err.message, 500);
+  }
+};
+```
+
+Repository
+
+```js
+const create = async (payload) => {
+  const product = await Products.create(payload);
+
+  return product;
+};
+```
+
+### 2. Read
+
+Controller
+
+```js
+const show = async (req, res, next) => {
+  try {
+    const product = await productService.show(
+      productRepository,
+      req.params.title,
+    );
+
+    res.status(200).json(formatResposne(200, "Success", product));
+  } catch (err) {
+    next(err);
+  }
+};
+```
+
+Service
+
+```js
+const show = async (repository, title) => {
+  try {
+    const cached = await getProductCache();
+
+    if (cached) {
+      return cached;
+    }
+    const product = await repository.show(title);
+    await setProductCache(product);
+
+    return product;
+  } catch (err) {
+    throw new AppError(err.message, 500);
+  }
+};
+```
+
+Repository
+
+```js
+const show = async (title) => {
+  const product = await Products.find({ title: title });
+
+  return product;
+};
+```
+
+### 3. Update
+
+Controller
+
+```js
+const update = async (req, res, next) => {
+  try {
+    const product = await productService.update(
+      productRepository,
+      req,
+      req.params.title,
+    );
+
+    res.status(201).json(formatResposne(201, "Success", product));
+  } catch (err) {
+    next(err);
+  }
+};
+```
+
+Service
+
+```js
+const update = async (repository, payload, title) => {
+  try {
+    const product = await Products.findOne({ title: title });
+
+    if (!product) throw new AppError("Product not found", 404);
+
+    let imgPath = product.image;
+
+    if (payload.file) {
+      if (product.image) {
+        const oldPath = path.join(__dirname, "../uploads", product.image);
+
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
+      }
+      imgPath = payload.file.filename;
+    }
+
+    const { name, price, description } = payload;
+
+    const updated = await repository.update(title, {
+      name,
+      price,
+      description,
+      image: imgPath,
+    });
+
+    await deleteProductCache();
+
+    return updated;
+  } catch (err) {
+    throw new AppError(err.message, 500);
+  }
+};
+```
+
+Repository
+
+```js
+const update = async (title, payload) => {
+  const product = await Products.findOneAndUpdate(
+    { title: title },
+    { ...payload },
+    { new: true, runValidators: true },
+  );
+
+  return product;
+};
+```
+
+### 4. Delete
+
+Controller
+
+```js
+const del = async (req, res, next) => {
+  try {
+    const product = await productService.del(
+      productRepository,
+      req.params.title,
+    );
+
+    res.status(200).json(formatResposne(200, "Success"));
+  } catch (err) {
+    next(err);
+  }
+};
+```
+
+Service
+
+```js
+const del = async (repository, title) => {
+  try {
+    const product = await Products.findOne({ title: title });
+
+    if (product.image) {
+      const imgPath = path.join(__dirname, "../uploads", product.image);
+      fs.unlinkSync(imgPath);
+    }
+    await repository.del(title);
+
+    return "Success";
+  } catch (err) {
+    throw new AppError(err.message, 500);
+  }
+};
+```
+
+Repository
+
+```js
+const del = async (title) => {
+  const product = await Products.deleteOne({ title: title });
+
+  return product;
+};
+```
+
+---
+
 ## Error Handling Multer
 
 ```js
