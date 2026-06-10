@@ -7,7 +7,10 @@ import { AppError } from "../utils/appError.js";
 import path from "path";
 import fs from "fs";
 import { Products } from "../models/productModel.js";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const get = async (repository) => {
   try {
     const cached = await getProductCache();
@@ -58,14 +61,35 @@ const show = async (repository, title) => {
 
 const update = async (repository, payload, title) => {
   try {
-    const product = await repository.update(title, {
-      ...payload,
-      image: payload.file.filename,
+    const product = await Products.findOne({ title: title });
+
+    if (!product) throw new AppError("Product not found", 404);
+
+    let imgPath = product.image;
+
+    if (payload.file) {
+      if (product.image) {
+        const oldPath = path.join(__dirname, "../uploads", product.image);
+
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
+      }
+      imgPath = payload.file.filename;
+    }
+
+    const { name, price, description } = payload;
+
+    const updated = await repository.update(title, {
+      name,
+      price,
+      description,
+      image: imgPath,
     });
 
     await deleteProductCache();
 
-    return product;
+    return updated;
   } catch (err) {
     throw new AppError(err.message, 500);
   }
@@ -73,19 +97,15 @@ const update = async (repository, payload, title) => {
 
 const del = async (repository, title) => {
   try {
-    const prevImg = await Products.find({ title: title });
+    const product = await Products.findOne({ title: title });
 
-    if (prevImg.image) {
-      const imgPath = path.join(__dirname, "../uploads", prevImg.image);
-      fs.unlink(imgPath, (err) => {
-        if (err) {
-          console.error("Failed to update image : ", err);
-        }
-      });
+    if (product.image) {
+      const imgPath = path.join(__dirname, "../uploads", product.image);
+      fs.unlinkSync(imgPath);
     }
-    const product = await repository.del(title);
+    await repository.del(title);
 
-    return product;
+    return "Success";
   } catch (err) {
     throw new AppError(err.message, 500);
   }

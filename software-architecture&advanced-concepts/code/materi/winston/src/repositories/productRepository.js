@@ -19,7 +19,7 @@ const show = async (title) => {
 };
 
 const update = async (title, payload) => {
-  const product = await Products.updateOne(
+  const product = await Products.findOneAndUpdate(
     { title: title },
     { ...payload },
     { new: true, runValidators: true },
