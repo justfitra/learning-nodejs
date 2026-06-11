@@ -1,10 +1,10 @@
+import logger from "../config/logger.js";
 import { formatResposne } from "../utils/formatResponse.js";
 
 export const errorHandler = (err, req, res, next) => {
   const statusCode = err.status || 500;
   const message = err.message || "Internal Server Error";
-
-  console.log(`Error [${statusCode}] - ${message}`);
+  logger.error(err.stack);
 
   res.status(statusCode).json(formatResposne(statusCode, message));
 };

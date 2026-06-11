@@ -4,3 +4,5 @@ uploads/
 .env
 .env.*
 access.log
+logs
+*.log
