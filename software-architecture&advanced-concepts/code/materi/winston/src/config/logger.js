@@ -1,4 +1,5 @@
 import winston from "winston";
+import DailyRotateFile from "winston-daily-rotate-file";
 const logger = winston.createLogger({
   level: "info",
 
@@ -18,6 +19,13 @@ const logger = winston.createLogger({
       ),
     }),
 
+    new DailyRotateFile({
+      filename: "src/logs/applicaiton-%DATE%.log",
+      datePattern: "YYYY-MM-DD",
+
+      maxSize: "20m",
+      maxFiles: "14d",
+    }),
     new winston.transports.File({
       filename: "src/logs/combined.log",
       // format: winston.format.json(), untuk mengganti format ke json biasanya di gunakan di production
@@ -31,6 +39,18 @@ const logger = winston.createLogger({
     new winston.transports.File({
       filename: "src/logs/req.log",
       level: "http",
+    }),
+  ],
+
+  exceptionHandlers: [
+    new winston.transports.File({
+      filename: "src/logs/exceptions.log",
+    }),
+  ],
+
+  rejectionHandlers: [
+    new winston.transports.File({
+      filename: "src/logs/rejections.log",
     }),
   ],
 });
