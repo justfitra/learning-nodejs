@@ -116,7 +116,7 @@
 - Clean Architecture & Dependency Injection _done ✓_
 - File Upload (`multer`) _done ✓_
 - Caching dengan Redis _done ✓_
-- Unit Testing (Jest / Mocha / Supertest)
+- Unit Testing (Jest / Mocha / Supertest) _done ✓_
 - Logging dengan Winston
 - Cluster, Load Balancing, dan Scaling
 
