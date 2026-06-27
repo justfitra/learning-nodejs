@@ -98,7 +98,9 @@ const update = async (repository, payload, name) => {
     return updated;
   } catch (err) {
     logger.error(err.message);
-    throw new AppError(err.message, 500);
+    console.log(err.status);
+
+    throw new AppError(err.message, err.status);
   }
 };
 
