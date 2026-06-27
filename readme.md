@@ -117,8 +117,8 @@
 - File Upload (`multer`) _done ✓_
 - Caching dengan Redis _done ✓_
 - Unit Testing (Jest / Mocha / Supertest) _done ✓_
-- Logging dengan Winston
-- Cluster, Load Balancing, dan Scaling
+- Logging dengan Winston _done ✓_
+- Cluster, Load Balancing, dan Scaling _done ✓_
 
 **Sumber:**
 
