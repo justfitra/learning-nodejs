@@ -9,24 +9,30 @@ import {
   updateUserSchema,
 } from "../validations/userSchema.js";
 import { imageValidate } from "../middlewares/imageValidate.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
+import { authorization } from "../middlewares/authorization.js";
 const router = express.Router();
 
-router.get("/", userController.get);
+router.get("/", verifyToken, authorization("user"), userController.get);
 router.post(
   "/",
   upload.single("avatar"),
   validate(createUserSchema),
+  verifyToken,
+  authorization("user"),
   imageValidate(createUserAvatarScema),
   userController.create,
 );
-router.get("/:title", userController.show);
+router.get("/:name", verifyToken, authorization("user"), userController.show);
 router.put(
-  "/:title",
+  "/:name",
   upload.single("avatar"),
+  verifyToken,
+  authorization("user"),
   imageValidate(updateUserAvatarSchema),
   validate(updateUserSchema),
   userController.update,
 );
-router.delete("/:title", userController.del);
+router.delete("/:name", userController.del);
 
 export default router;

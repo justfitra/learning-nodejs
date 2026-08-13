@@ -1,14 +1,13 @@
-export const validate = (schema) => (req, re, next) => {
+export const validate = (schema) => (req, res, next) => {
   const { error, value } = schema.validate(req.body, {
     abortEarly: false,
     stripUnknown: true,
   });
 
   if (error) {
-    next(error);
+    return next(error); // stop di sini
   }
 
   req.body = value;
-
   next();
 };

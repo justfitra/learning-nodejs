@@ -29,22 +29,21 @@ export const login = async (repository, payload) => {
       userId: user._id,
     });
 
-    await repository.create({
-      userId: user._id,
-      token: refreshToken,
-    });
+    await repository.create(user._id, refreshToken);
 
     return {
       accessToken,
       refreshToken,
     };
   } catch (err) {
-    throw new AppError(err.message, err.status);
+    throw new AppError(err.message);
   }
 };
 
-export const register = async (payload) => {
+export const register = async (repository, payload) => {
   try {
+    // console.log(payload);
+
     const existUser = await User.findOne({ email: payload.email });
 
     if (existUser) {
@@ -73,16 +72,13 @@ export const register = async (payload) => {
       userId: user._id,
     });
 
-    await repository.create({
-      userId: user._id,
-      token: refreshToken,
-    });
+    await repository.create(user._id, refreshToken);
 
     return {
       accessToken,
       refreshToken,
     };
   } catch (err) {
-    throw new AppError(err.message, err.status);
+    throw new AppError(err.message, err.status || 500);
   }
 };

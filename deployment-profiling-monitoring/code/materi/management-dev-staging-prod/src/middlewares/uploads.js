@@ -5,14 +5,14 @@ const storage = multer.diskStorage({
     cb(null, "src/uploads");
   },
   filename: (req, file, cb) => {
-    const uniqueName = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const uniqueName = Date.now() + "-" + file.originalname;
 
-    cb(null, file.filename + "-" + uniqueName);
+    cb(null, uniqueName);
   },
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startWith("image")) {
+  if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
     cb(new Error("Not an image! Please upload an image."));

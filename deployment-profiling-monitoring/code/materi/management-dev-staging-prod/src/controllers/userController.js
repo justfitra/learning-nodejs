@@ -24,7 +24,7 @@ const create = async (req, res, next) => {
 
 const show = async (req, res, next) => {
   try {
-    const user = await userService.show(userRepository, req.params);
+    const user = await userService.show(userRepository, req.params.name);
 
     return res.status(200).json(formatResponse(200, "Success", user));
   } catch (err) {
