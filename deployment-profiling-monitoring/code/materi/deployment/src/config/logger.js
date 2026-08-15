@@ -1,5 +1,5 @@
 import winston from "winston";
-import { DailyRotateFile } from "winston/lib/winston/transports";
+import DailyRotateFile from "winston-daily-rotate-file";
 
 const logger = winston.createLogger({
   level: "info",
@@ -19,6 +19,40 @@ const logger = winston.createLogger({
       ),
     }),
 
-    new DailyRotateFile(),
+    new DailyRotateFile({
+      filename: "src/logs/application-%DATE%.log",
+      datePattern: "YYYY-MM-DD",
+
+      maxSize: "20m",
+      maxFiles: "14d",
+    }),
+
+    new winston.transports.File({
+      filename: "src/logs/combined.log",
+    }),
+
+    new winston.transports.File({
+      filename: "src/logs/err.log",
+      level: "error",
+    }),
+
+    new winston.transports.File({
+      filename: "src/logs/req.log",
+      level: "http",
+    }),
+  ],
+
+  exceptionHandlers: [
+    new winston.transports.File({
+      filename: "src/logs/exceptions.log",
+    }),
+  ],
+
+  rejectionHandlers: [
+    new winston.transports.File({
+      filename: "src/logs/rejections.log",
+    }),
   ],
 });
+
+export default logger;
