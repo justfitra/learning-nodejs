@@ -1,9 +1,10 @@
+import logger from "../config/logger.js";
 import { User } from "../models/userModel.js";
 import { AppError } from "../utils/appError.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
 
-export const login = async (repository, payload) => {
+const login = async (repository, payload) => {
   try {
     const user = await User.findOne({ email: payload.email });
 
@@ -20,7 +21,7 @@ export const login = async (repository, payload) => {
       throw new AppError("Invalid Password", 401);
     }
 
-    const accessToken = generateRefreshToken({
+    const accessToken = generateAccessToken({
       userId: user._id,
       role: user.role,
     });
@@ -30,17 +31,18 @@ export const login = async (repository, payload) => {
     });
 
     await repository.create(user._id, refreshToken);
-
+    logger.info("Login Success");
     return {
       accessToken,
       refreshToken,
     };
   } catch (err) {
-    throw new AppError(err.message);
+    logger.error(err.message);
+    throw new AppError(err.message, err.status);
   }
 };
 
-export const register = async (repository, payload) => {
+const register = async (repository, payload) => {
   try {
     const existUser = await User.findOne({ email: payload.email });
 
@@ -61,7 +63,7 @@ export const register = async (repository, payload) => {
 
     const user = await User.create({ ...payload, password: password });
 
-    const accessToken = generateRefreshToken({
+    const accessToken = generateAccessToken({
       userId: user._id,
       role: user.role,
     });
@@ -72,11 +74,14 @@ export const register = async (repository, payload) => {
 
     await repository.create(user._id, refreshToken);
 
+    logger.info("Register Success");
+
     return {
       accessToken,
       refreshToken,
     };
   } catch (err) {
-    throw new AppError(err.message, err.status || 500);
+    logger.error(err.message);
+    throw new AppError(err.message, err.status);
   }
 };
