@@ -85,3 +85,5 @@ const register = async (repository, payload) => {
     throw new AppError(err.message, err.status);
   }
 };
+
+export { login, register };

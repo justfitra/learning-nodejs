@@ -1,10 +1,10 @@
 import Joi from "joi";
 
-const userSchema = Joi.validate({
+export const createUserSchema = Joi.validate({
   name: Joi.string().required().max(255),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
-  role: Joi.string().required(),
+  role: Joi.string(),
 });
 
 export const createUserAvatarScema = (file) => {
@@ -25,3 +25,10 @@ export const createUserAvatarScema = (file) => {
 
   return { error: null };
 };
+
+export const updateUserSchema = Joi.object({
+  name: Joi.string().max(255),
+  email: Joi.string().email(),
+  password: Joi.string(),
+  role: Joi.string(),
+});
