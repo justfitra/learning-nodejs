@@ -1,9 +1,9 @@
 import logger from "../config/logger.js";
 import { formatResponse } from "../utils/formatResponse.js";
 
-export const erorrHandler = (req, res, next, err) => {
-  const statusCode = err.status;
-  const message = err.message;
+export const erorrHandler = (err, req, res, next) => {
+  const statusCode = err.status || 500;
+  const message = err.message || "Internal Server Error";
 
   logger.error(err.stack);
 

@@ -1,5 +1,5 @@
 import * as authService from "../services/authService.js";
-import * as refreshTokenRepository from "../repositories/re";
+import * as refreshTokenRepository from "../repositories/refreshTokenRepository.js";
 import { formatResponse } from "../utils/formatResponse.js";
 const createLogin = async (req, res, next) => {
   try {

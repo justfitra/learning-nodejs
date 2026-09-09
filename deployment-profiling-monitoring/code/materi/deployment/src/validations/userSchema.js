@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const createUserSchema = Joi.validate({
+export const createUserSchema = Joi.object({
   name: Joi.string().required().max(255),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
@@ -32,3 +32,18 @@ export const updateUserSchema = Joi.object({
   password: Joi.string(),
   role: Joi.string(),
 });
+
+export const updateUserAvatarSchema = (file) => {
+  const allowedMimes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+  const maxSize = 2 * 1024 * 1024;
+
+  if (!allowedMimes.includes(file.mimetype)) {
+    return { error: "Format gambar harus JPG, PNG, WEBP, atau GIF" };
+  }
+
+  if (file.size > maxSize) {
+    return { error: "Ukuran gambar maksimal 2MB" };
+  }
+
+  return { error: null };
+};

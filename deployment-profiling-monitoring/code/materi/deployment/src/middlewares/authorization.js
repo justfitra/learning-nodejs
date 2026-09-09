@@ -6,6 +6,5 @@ export const authorization =
     if (!allowedRoles.includes(req.user.role)) {
       throw new AppError("Forbidden", 403);
     }
+    next();
   };
-
-next();

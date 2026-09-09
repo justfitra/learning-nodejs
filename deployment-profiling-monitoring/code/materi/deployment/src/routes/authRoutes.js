@@ -6,6 +6,8 @@ import {
   registerUserAvatarSchema,
 } from "../validations/authSchema.js";
 import * as authController from "../controllers/authController.js";
+import { upload } from "../middlewares/uploads.js";
+import { imageValidate } from "../middlewares/imageValidate.js";
 
 const router = express.Router();
 
@@ -17,3 +19,5 @@ router.post(
   validate(registerSchema),
   authController.createRegister,
 );
+
+export default router;
