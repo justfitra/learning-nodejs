@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "start": "node authentication_and_security/code/materi/authorization_role_based/server.js",
+    "start": "node server.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
