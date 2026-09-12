@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 const env = process.env.NODE_ENV || "dev";
 
-dotenv.config({ path: `.env.${env}` });
+dotenv.config({ path: `.env.${env}`, quiet: true });
 
 export const envConfig = {
   app_name: process.env.APP_NAME,
