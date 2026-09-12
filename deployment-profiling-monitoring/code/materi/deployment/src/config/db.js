@@ -4,8 +4,8 @@ import { envConfig } from "./envConfig.js";
 export const dbConnector = async () => {
   try {
     await mongoose.connect(envConfig.mongo_uri);
-    console.log("Connected Successfully");
+    console.log(`Database connected:  "OK"}`);
   } catch (err) {
-    console.error(err.message);
+    console.error("DB CONNECTION ERROR:", err);
   }
 };
