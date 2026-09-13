@@ -17,13 +17,18 @@ process.on("unhandledRejection", (err) => {
   console.error("UNHANDLED REJECTION:", err);
 });
 
-dbConnector();
+// Wrap in async IIFE or use top-level await
+(async () => {
+  await dbConnector();
 
-app.use((req, res, next) => {
-  console.log(`[PORT ${envConfig.app_port}] ${req.method} ${req.url}`);
-  next();
-});
+  app.use((req, res, next) => {
+    console.log(`[PORT ${envConfig.app_port}] ${req.method} ${req.url}`);
+    next();
+  });
 
-app.listen(envConfig.app_port, () => {
-  console.log(`app run at http://${envConfig.app_host}:${envConfig.app_port}`);
-});
+  app.listen(envConfig.app_port, () => {
+    console.log(
+      `app run at http://${envConfig.app_host}:${envConfig.app_port}`,
+    );
+  });
+})();
