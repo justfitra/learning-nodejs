@@ -17,7 +17,7 @@ process.on("unhandledRejection", (err) => {
   console.error("UNHANDLED REJECTION:", err);
 });
 
-dbConnector();
+await dbConnector();
 
 app.use((req, res, next) => {
   console.log(`[PORT ${envConfig.app_port}] ${req.method} ${req.url}`);
